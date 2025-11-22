@@ -36,7 +36,7 @@ function PredictionApp() {
     <div className="skcs-app">
       {/* Hero Banner */}
       <div className="skcs-hero-banner">
-        <img src="/image/skcs-hero.png" alt="SKCS Hero Banner" />
+        <img src="/image/skcs-hero.png" alt="SKCS Sports Predictions" />
         <h1>AI-powered insights. Expert-backed predictions.</h1>
       </div>
 
