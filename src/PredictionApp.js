@@ -3,13 +3,14 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import "./PredictionApp.css";
 
-// Helper for probability colors
+// Color coding helper for probabilities
 const getColorForProbability = (p) => {
-  if (p >= 70) return "#4caf50";
-  if (p >= 50) return "#ffeb3b";
-  return "#f44336";
+  if (p >= 70) return "#4caf50"; // green high
+  if (p >= 50) return "#ffeb3b"; // yellow medium
+  return "#f44336"; // red low
 };
 
+// Components to cleanly render different data sections
 function MatchInfo({ match, kickoff, venue }) {
   return (
     <div className="match-info">
@@ -42,7 +43,7 @@ function EventsList({ events }) {
       <ul>
         {events.map((event, idx) => (
           <li key={idx}>
-            {event.time.elapsed}' {event.type} - {event.player.name} ({event.team.name})
+            {event.time.elapsed + "' "} {event.type} - {event.player.name} ({event.team.name})
           </li>
         ))}
       </ul>
@@ -56,11 +57,13 @@ function Lineups({ lineups }) {
     <div className="lineups">
       <h4>Lineups</h4>
       {lineups.map((team, idx) => (
-        <div key={idx}>
+        <div key={idx} className="lineup-team">
           <strong>{team.team.name}</strong>
           <ul>
             {team.startXI.map((player, pidx) => (
-              <li key={pidx}>{player.player.name} ({player.position})</li>
+              <li key={pidx}>
+                {player.player.name} ({player.position})
+              </li>
             ))}
           </ul>
         </div>
@@ -69,7 +72,7 @@ function Lineups({ lineups }) {
   );
 }
 
-export default function PredictionApp() {
+function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [league, setLeague] = useState("");
@@ -102,27 +105,46 @@ export default function PredictionApp() {
         <h1>AI-powered insights. Expert-backed predictions.</h1>
       </div>
 
+      {/* Form Section */}
       <form className="skcs-form" onSubmit={handleSubmit}>
         <div className="skcs-row">
           <div className="skcs-field">
             <label>Home Team</label>
-            <input type="text" value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)} required/>
+            <input
+              type="text"
+              value={homeTeam}
+              onChange={(e) => setHomeTeam(e.target.value)}
+              required
+            />
           </div>
           <div className="skcs-field">
             <label>Away Team</label>
-            <input type="text" value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)} required/>
+            <input
+              type="text"
+              value={awayTeam}
+              onChange={(e) => setAwayTeam(e.target.value)}
+              required
+            />
           </div>
           <div className="skcs-field">
             <label>League</label>
-            <input type="text" value={league} onChange={(e) => setLeague(e.target.value)} required/>
+            <input
+              type="text"
+              value={league}
+              onChange={(e) => setLeague(e.target.value)}
+              required
+            />
           </div>
         </div>
         <div className="skcs-actions">
-          <button type="submit" className="skcs-btn skcs-primary">Get Prediction</button>
+          <button type="submit" className="skcs-btn skcs-primary">
+            Get Prediction
+          </button>
         </div>
         {error && <div className="skcs-error">{error}</div>}
       </form>
 
+      {/* Content Section */}
       <div className="skcs-content">
         {loading && (
           <div className="skcs-loader">
@@ -134,36 +156,48 @@ export default function PredictionApp() {
         {!loading && result && (
           <>
             <MatchInfo match={result.match} kickoff={result.kickoff} venue={result.venue} />
+
             <StatsList stats={result.stats} />
+
             <EventsList events={result.events} />
+
             <Lineups lineups={result.lineups} />
 
-            {result.consensus && <p><strong>Consensus:</strong> {result.consensus.rationale}</p>}
+            {result.consensus && (
+              <p><strong>Consensus:</strong> {result.consensus.rationale}</p>
+            )}
 
-            {result.markets && result.markets.map(({heading, options}, i) => (
-              <div key={i} style={{marginBottom: 30}}>
+            {result.markets && result.markets.map(({ heading, options }, i) => (
+              <div key={i} style={{ marginBottom: 30 }}>
                 <h3>{heading}</h3>
-                <ul style={{listStyle: "none", paddingLeft: 0}}>
-                  {options.map(({label, probability, confidence}, j) => (
-                    <li key={j} style={{
-                      display:"flex",
-                      justifyContent:"space-between",
-                      maxWidth: 400,
-                      backgroundColor: getColorForProbability(probability),
-                      padding: "8px 12px",
-                      marginBottom: 5,
-                      borderRadius: 4,
-                      color: confidence === "Low" ? "#fff" : "#000",
-                      fontWeight: "bold",
-                    }} title={`Confidence: ${confidence}`}>
-                      <span>{label}</span><span>{probability}%</span>
+                <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+                  {options.map(({ label, probability, confidence }, j) => (
+                    <li
+                      key={j}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        maxWidth: 400,
+                        backgroundColor: getColorForProbability(probability),
+                        padding: "8px 12px",
+                        marginBottom: 5,
+                        borderRadius: 4,
+                        color: confidence === "Low" ? "#fff" : "#000",
+                        fontWeight: "bold",
+                      }}
+                      title={`Confidence: ${confidence}`}
+                    >
+                      <span>{label}</span>
+                      <span>{probability}%</span>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
 
-            {result.expert_notes && <p><strong>Notes:</strong> {result.expert_notes}</p>}
+            {result.expert_notes && (
+              <p><strong>Notes:</strong> {result.expert_notes}</p>
+            )}
           </>
         )}
 
@@ -172,6 +206,7 @@ export default function PredictionApp() {
         )}
       </div>
 
+      {/* Confidence Legend Panel */}
       <div className="skcs-confidence-panel">
         <span className="chip chip-high">High Confidence</span>
         <span className="chip chip-medium">Medium Confidence</span>
@@ -179,7 +214,10 @@ export default function PredictionApp() {
         <span className="chip chip-none">No Confidence</span>
       </div>
 
+      {/* Footer */}
       <div className="skcs-footer">© 2025 SKCS Sports Predictions. All rights reserved.</div>
     </div>
   );
 }
+
+export default PredictionApp;

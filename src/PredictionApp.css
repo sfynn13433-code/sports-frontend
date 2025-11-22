@@ -160,43 +160,6 @@ code {
   color: var(--muted);
 }
 
-/* Table */
-.skcs-table-wrapper {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.skcs-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.skcs-table thead th {
-  background: var(--table-header);
-  color: var(--primary);
-  font-weight: 700;
-  padding: 12px;
-  text-align: left;
-  border-bottom: 2px solid var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.skcs-table thead th:hover {
-  color: var(--accent);
-  cursor: default;
-}
-.skcs-table tbody td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-}
-.skcs-table tbody td:nth-child(2) {
-  background-color: rgba(16, 185, 129, 0.05);
-}
-.skcs-table tbody tr:nth-child(even) td {
-  background: var(--table-row);
-}
-
 /* Confidence-based probability colors */
 .confidence-high {
   background-color: var(--chip-high);
