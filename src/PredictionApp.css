@@ -274,3 +274,46 @@ code {
   gap: 12px;
   padding: 16px;
 }
+
+/* New Sections Styling */
+.match-info h3 {
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+.match-info p {
+  margin: 4px 0;
+  font-weight: 600;
+}
+
+.stats-list, .events-list, .lineups {
+  margin-top: 24px;
+}
+
+.stats-list h4, .events-list h4, .lineups h4 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.stats-list ul, .events-list ul, .lineups ul {
+  padding-left: 20px;
+  color: var(--text);
+}
+
+.stats-list li, .events-list li, .lineups li {
+  margin-bottom: 6px;
+}
+
+.lineups > div {
+  margin-bottom: 16px;
+}
+
+.lineup-team strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.lineup-team ul {
+  padding-left: 20px;
+}
