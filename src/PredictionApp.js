@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+<h2>SKCS Sports Predictions</h2>import React, { useState } from "react";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import "./PredictionApp.css";
@@ -165,7 +165,7 @@ function PredictionApp() {
   return (
     <div className="prediction-app">
       <div className="skcs-hero-banner">
-        <img src="/images/skcs-hero.png" alt="SKCS Sports Predictions Banner" />
+        <img src="/images/skcs-hero.png" alt="SKCS Hero Banner" />
         <h1>AI-powered insights. Expert-backed predictions.</h1>
       </div>
 
