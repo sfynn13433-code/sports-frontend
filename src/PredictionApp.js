@@ -7,7 +7,7 @@ function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [league, setLeague] = useState("");
-  const [result, setResult] = useState({ predictions: [] }); // Initialized with empty predictions array
+  const [result, setResult] = useState({ predictions: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -36,7 +36,7 @@ function PredictionApp() {
 
   return (
     <div className="skcs-app">
-      {/* Hero Banner with image and heading */}
+      {/* Hero Banner */}
       <div className="skcs-hero-banner">
         <img src="/image/skcs-hero.png" alt="SKCS Sports Predictions" />
         <h1>AI-powered insights. Expert-backed predictions.</h1>
