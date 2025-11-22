@@ -331,4 +331,8 @@ code {
 }
 
 /* Confidence Legend Panel */
-.sk
+.skcs-confidence-panel {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px
