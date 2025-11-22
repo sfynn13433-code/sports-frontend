@@ -3,6 +3,13 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import "./PredictionApp.css";
 
+// Color coding helper for probabilities
+const getColorForProbability = (p) => {
+  if (p >= 70) return "#4caf50"; // green high
+  if (p >= 50) return "#ffeb3b"; // yellow medium
+  return "#f44336"; // red low
+};
+
 function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
@@ -15,16 +22,12 @@ function PredictionApp() {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setResult(null);
     try {
       const response = await axios.post(
         "https://sports-backend-8bvf.onrender.com/predict",
-        {
-          homeTeam,
-          awayTeam,
-          league,
-        }
+        { homeTeam, awayTeam, league }
       );
-      // Save the full backend response
       setResult(response.data);
     } catch (err) {
       setError("Error fetching prediction. Please try again.");
@@ -35,7 +38,6 @@ function PredictionApp() {
 
   return (
     <div className="skcs-app">
-      {/* Hero Banner */}
       <div className="skcs-hero-banner">
         <img src="/image/skcs-hero.png" alt="SKCS Sports Predictions" />
         <h1>AI-powered insights. Expert-backed predictions.</h1>
@@ -91,43 +93,41 @@ function PredictionApp() {
 
         {!loading && result && (
           <div className="skcs-result">
-            {/* Show backend fields */}
             {result.match && <h3>{result.match}</h3>}
-            {result.source && <p><strong>Source:</strong> {result.source}</p>}
-            {result.methodology && (
-              <p><strong>Methodology:</strong> {result.methodology}</p>
+            {result.consensus && (
+              <p>
+                <strong>Consensus:</strong> {result.consensus.rationale}
+              </p>
             )}
-
-            {/* If backend later returns predictions array, show table */}
-            {Array.isArray(result.predictions) && result.predictions.length > 0 && (
-              <div className="skcs-table-wrapper">
-                <table className="skcs-table">
-                  <thead>
-                    <tr>
-                      <th>Market</th>
-                      <th>Probability</th>
-                      <th>Confidence</th>
-                      <th>Rationale</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {result.predictions.map((prediction, index) => (
-                      <tr key={index}>
-                        <td>{prediction.market}</td>
-                        <td>{prediction.probability}%</td>
-                        <td>
-                          <span
-                            className={`confidence-${prediction.confidence.toLowerCase()}`}
-                          >
-                            {prediction.confidence}
-                          </span>
-                        </td>
-                        <td>{prediction.rationale}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            {result.markets && result.markets.map(({ heading, options }, i) => (
+              <div key={i} style={{ marginBottom: 30 }}>
+                <h3>{heading}</h3>
+                <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+                  {options.map(({ label, probability, confidence }, j) => (
+                    <li
+                      key={j}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        maxWidth: 400,
+                        backgroundColor: getColorForProbability(probability),
+                        padding: "8px 12px",
+                        marginBottom: 5,
+                        borderRadius: 4,
+                        color: confidence === "Low" ? "#fff" : "#000",
+                        fontWeight: "bold",
+                      }}
+                      title={`Confidence: ${confidence}`}
+                    >
+                      <span>{label}</span>
+                      <span>{probability}%</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
+            ))}
+            {result.expert_notes && (
+              <p><strong>Notes:</strong> {result.expert_notes}</p>
             )}
           </div>
         )}

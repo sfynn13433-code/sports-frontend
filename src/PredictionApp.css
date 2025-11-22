@@ -26,13 +26,11 @@
 *::after {
   box-sizing: border-box;
 }
-
 html,
 body,
 #root {
   height: 100%;
 }
-
 body {
   margin: 0;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
@@ -43,7 +41,6 @@ body {
   background: var(--bg);
   color: var(--text);
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -62,9 +59,8 @@ code {
   background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
   border-bottom: 1px solid var(--border);
 }
-
 .skcs-hero-banner img {
-  max-width: 60%; /* Smaller width to reduce image size */
+  max-width: 60%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
@@ -73,14 +69,13 @@ code {
   margin-left: auto;
   margin-right: auto;
 }
-
 .skcs-hero-banner h1 {
-  font-size: 1.4rem; /* Smaller font for better fit */
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0 auto;
   letter-spacing: 0.5px;
-  max-width: 60%; /* Align text width with image */
+  max-width: 60%;
   text-align: center;
 }
 
@@ -90,20 +85,17 @@ code {
   border-bottom: 1px solid var(--border);
   background: var(--panel);
 }
-
 .skcs-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
-
 .skcs-field label {
   display: block;
   margin-bottom: 6px;
   color: var(--muted);
   font-size: 0.9rem;
 }
-
 .skcs-field input {
   width: 100%;
   background: var(--card);
@@ -113,12 +105,10 @@ code {
   padding: 10px 12px;
   outline: none;
 }
-
 .skcs-field input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
-
 .skcs-error {
   margin-top: 12px;
   color: #fca5a5;
@@ -129,7 +119,6 @@ code {
 .skcs-actions {
   margin-top: 16px;
 }
-
 .skcs-btn {
   display: inline-flex;
   align-items: center;
@@ -141,45 +130,12 @@ code {
   font-weight: 600;
   transition: all 0.2s ease;
 }
-
 .skcs-primary {
   background: var(--primary);
   color: #0b1324;
 }
-
 .skcs-primary:hover {
   background: var(--primary-700);
-}
-
-/* Tabs */
-.skcs-tabs {
-  display: flex;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-}
-
-.skcs-tab {
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.skcs-tab:hover {
-  border-color: var(--primary);
-}
-
-.skcs-tab.active {
-  background: var(--primary);
-  color: #0b1324;
-  border-color: var(--primary);
 }
 
 /* Content */
@@ -187,7 +143,6 @@ code {
   padding: 24px;
   flex: 1;
 }
-
 .skcs-loader {
   display: grid;
   place-items: center;
@@ -196,7 +151,6 @@ code {
   padding: 40px 0;
   text-align: center;
 }
-
 .skcs-empty {
   padding: 24px;
   background: var(--card);
@@ -213,13 +167,10 @@ code {
   border-radius: 12px;
   overflow: hidden;
 }
-
 .skcs-table {
   width: 100%;
   border-collapse: collapse;
 }
-
-/* Enhanced table headings */
 .skcs-table thead th {
   background: var(--table-header);
   color: var(--primary);
@@ -230,23 +181,18 @@ code {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-
 .skcs-table thead th:hover {
   color: var(--accent);
   cursor: default;
 }
-
 .skcs-table tbody td {
   padding: 12px;
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
-
-/* Subtle background shading for Probability column */
 .skcs-table tbody td:nth-child(2) {
   background-color: rgba(16, 185, 129, 0.05);
 }
-
 .skcs-table tbody tr:nth-child(even) td {
   background: var(--table-row);
 }
@@ -259,7 +205,6 @@ code {
   border-radius: 6px;
   text-align: center;
 }
-
 .confidence-medium {
   background-color: var(--chip-medium);
   color: #fff;
@@ -267,7 +212,6 @@ code {
   border-radius: 6px;
   text-align: center;
 }
-
 .confidence-low {
   background-color: var(--chip-low);
   color: #fff;
@@ -275,7 +219,6 @@ code {
   border-radius: 6px;
   text-align: center;
 }
-
 .confidence-none {
   background-color: var(--chip-none);
   color: #fff;
@@ -292,7 +235,6 @@ code {
   border-top: 1px solid var(--border);
   background: var(--panel);
 }
-
 .chip {
   display: inline-flex;
   align-items: center;
@@ -303,19 +245,15 @@ code {
   font-weight: 600;
   color: #0b1324;
 }
-
 .chip-high {
   background: var(--chip-high);
 }
-
 .chip-medium {
   background: var(--chip-medium);
 }
-
 .chip-low {
   background: var(--chip-low);
 }
-
 .chip-none {
   background: var(--chip-none);
 }
