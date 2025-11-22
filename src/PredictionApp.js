@@ -9,6 +9,10 @@ const TABS = [
   { key: "corners", label: "Corners" },
   { key: "cards", label: "Cards" },
   { key: "handicaps", label: "Handicaps" },
+  { key: "fulltime", label: "Full Time" },
+  { key: "doubleChance", label: "Double Chance" },
+  { key: "combos", label: "Combos" },
+  { key: "legend", label: "Legend" },
 ];
 
 function PredictionApp() {
@@ -24,9 +28,18 @@ function PredictionApp() {
     corners: [],
     cards: [],
     handicaps: [],
+    combos: [],
+    legend: {},
+    expert_notes: [],
+    methodology: "",
+    confidence_scale: "",
+    all: {
+      fulltime_result: [],
+      double_chance: {},
+    },
   });
 
-  const apiUrl = "https://sports-backend-8bvf.onrender.com"; // hard-coded backend URL
+  const apiUrl = "https://sports-backend-8bvf.onrender.com";
 
   const validate = () => {
     if (!homeTeam || !awayTeam || !league) {
@@ -41,149 +54,163 @@ function PredictionApp() {
     return true;
   };
 
-  const fetchPredictions = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!validate()) return;
     setLoading(true);
     try {
-      const { data } = await axios.post(`${apiUrl}/predict`, {
+      const response = await axios.post(`${apiUrl}/predict`, {
         homeTeam,
         awayTeam,
         league,
       });
-
-      // Expecting data structured per market; fallback safely
-      setResults({
-        goals: data?.goals || data?.predictions?.goals || [],
-        halftime: data?.halftime || data?.predictions?.halftime || [],
-        corners: data?.corners || data?.predictions?.corners || [],
-        cards: data?.cards || data?.predictions?.cards || [],
-        handicaps: data?.handicaps || data?.predictions?.handicaps || [],
-      });
-    } catch (err) {
-      setErrorMsg("Could not fetch predictions. Please try again.");
-      console.error(err);
+      setResults(response.data);
+    } catch (error) {
+      setErrorMsg("Error fetching prediction. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const currentData = results[activeTab] || [];
+  const renderTable = (data) => (
+    <table>
+      <thead>
+        <tr>
+          <th>Outcome</th>
+          <th>Probability</th>
+          <th>Odds</th>
+          <th>Market</th>
+          <th>Suggestion</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item, idx) => (
+          <tr key={idx}>
+            <td>{item.outcome}</td>
+            <td>{item.probability}</td>
+            <td>{item.odds}</td>
+            <td>{item.market}</td>
+            <td>{item.suggestion}</td>
+            <td>{item.rationale}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const renderDoubleChance = (dc) => (
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Probability</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(dc).map(([key, value], idx) => (
+          <tr key={idx}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const renderLegend = (legend) => (
+    <div className="legend">
+      {Object.entries(legend).map(([key, value], idx) => (
+        <div key={idx} style={{ marginBottom: "20px" }}>
+          <h4>{key.replace(/_/g, " ").toUpperCase()}</h4>
+          <p><strong>Description:</strong> {value.description}</p>
+          {value.outcomes && (
+            <p><strong>Outcomes:</strong> {value.outcomes.join(", ")}</p>
+          )}
+          {value.example && (
+            <p><strong>Example:</strong> {value.example}</p>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderExpertSummary = () => (
+    <div className="expert-summary">
+      <h3>Prediction Methodology</h3>
+      <p>{results.methodology}</p>
+      <h4>Confidence Scale</h4>
+      <p>{results.confidence_scale}</p>
+      {results.expert_notes.length > 0 && (
+        <div>
+          <h4>Expert Notes</h4>
+          <ul>
+            {results.expert_notes.map((note, idx) => (
+              <li key={idx}>{note}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 
   return (
-    <div className="skcs-app">
-      <header className="skcs-header">
-        <div className="skcs-title">
-          <h1>SKCS Sports Predictions</h1>
-          <p>Blended AI + consensus insights across markets</p>
+    <div className="prediction-app">
+      <h2>SKCS Sports Predictions</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Home Team"
+          value={homeTeam}
+          onChange={(e) => setHomeTeam(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Away Team"
+          value={awayTeam}
+          onChange={(e) => setAwayTeam(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="League"
+          value={league}
+          onChange={(e) => setLeague(e.target.value)}
+        />
+        <button type="submit">Predict</button>
+      </form>
+
+      {errorMsg && <p className="error">{errorMsg}</p>}
+      {loading && <ClipLoader color="#36d7b7" />}
+
+      {!loading && results && (
+        <div>
+          {renderExpertSummary()}
+
+          <div className="tabs">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                className={activeTab === tab.key ? "active" : ""}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="tab-content">
+            {activeTab === "goals" && renderTable(results.goals)}
+            {activeTab === "halftime" && renderTable(results.halftime)}
+            {activeTab === "corners" && renderTable(results.corners)}
+            {activeTab === "cards" && renderTable(results.cards)}
+            {activeTab === "handicaps" && renderTable(results.handicaps)}
+            {activeTab === "fulltime" && renderTable(results.all.fulltime_result)}
+            {activeTab === "doubleChance" && renderDoubleChance(results.all.double_chance)}
+            {activeTab === "combos" && renderTable(results.combos)}
+            {activeTab === "legend" && renderLegend(results.legend)}
+          </div>
         </div>
-      </header>
-
-      <section className="skcs-form">
-        <div className="skcs-row">
-          <div className="skcs-field">
-            <label>Home Team</label>
-            <input
-              type="text"
-              value={homeTeam}
-              onChange={(e) => setHomeTeam(e.target.value)}
-              placeholder="e.g., Manchester City"
-            />
-          </div>
-          <div className="skcs-field">
-            <label>Away Team</label>
-            <input
-              type="text"
-              value={awayTeam}
-              onChange={(e) => setAwayTeam(e.target.value)}
-              placeholder="e.g., Liverpool"
-            />
-          </div>
-          <div className="skcs-field">
-            <label>League</label>
-            <input
-              type="text"
-              value={league}
-              onChange={(e) => setLeague(e.target.value)}
-              placeholder="e.g., Premier League"
-            />
-          </div>
-        </div>
-
-        {errorMsg && <div className="skcs-error">{errorMsg}</div>}
-
-        <div className="skcs-actions">
-          <button className="skcs-btn skcs-primary" onClick={fetchPredictions}>
-            Predict
-          </button>
-        </div>
-      </section>
-
-      <nav className="skcs-tabs">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            className={`skcs-tab ${activeTab === t.key ? "active" : ""}`}
-            onClick={() => setActiveTab(t.key)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </nav>
-
-      <main className="skcs-content">
-        {loading && (
-          <div className="skcs-loader">
-            <ClipLoader color="#2cc5c5" size={48} />
-            <p>Fetching {activeTab} predictions...</p>
-          </div>
-        )}
-
-        {!loading && currentData.length === 0 && (
-          <div className="skcs-empty">
-            <p>No predictions yet. Enter details and click Predict.</p>
-          </div>
-        )}
-
-        {!loading && currentData.length > 0 && (
-          <div className="skcs-table-wrapper">
-            <table className="skcs-table">
-              <thead>
-                <tr>
-                  <th>Outcome</th>
-                  <th>Probability</th>
-                  <th>Odds</th>
-                  <th>Market</th>
-                  <th>Suggested Bet</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.map((row, idx) => (
-                  <tr key={`${activeTab}-${idx}`}>
-                    <td>{row.outcome || "-"}</td>
-                    <td>
-                      {typeof row.probability === "number"
-                        ? `${row.probability}%`
-                        : row.probability || "-"}
-                    </td>
-                    <td>{row.odds ?? "-"}</td>
-                    <td>{row.market || activeTab}</td>
-                    <td>{row.suggestedBet || "-"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="skcs-legend">
-              <span className="chip chip-high">High confidence ≥ 70%</span>
-              <span className="chip chip-medium">Medium 50–69%</span>
-              <span className="chip chip-low">Low &lt; 50%</span>
-            </div>
-          </div>
-        )}
-      </main>
-
-      <footer className="skcs-footer">
-        <p>© 2025 SKCS Sports Analytics · Pietermaritzburg, KZN</p>
-      </footer>
+      )}
     </div>
   );
 }
