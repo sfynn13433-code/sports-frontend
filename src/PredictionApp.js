@@ -164,7 +164,11 @@ function PredictionApp() {
 
   return (
     <div className="prediction-app">
-      <h2>SKCS Sports Predictions</h2>
+      <div className="skcs-hero-banner">
+        <img src="/images/skcs-hero.png" alt="SKCS Sports Predictions Banner" />
+        <h1>AI-powered insights. Expert-backed predictions.</h1>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
