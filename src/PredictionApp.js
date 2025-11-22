@@ -72,6 +72,14 @@ function PredictionApp() {
     }
   };
 
+  const getConfidenceClass = (probability) => {
+    const value = parseFloat(probability);
+    if (isNaN(value)) return "confidence-none";
+    if (value >= 70) return "confidence-high";
+    if (value >= 50) return "confidence-medium";
+    return "confidence-low";
+  };
+
   const renderTable = (data) => (
     <table>
       <thead>
@@ -88,7 +96,7 @@ function PredictionApp() {
         {data.map((item, idx) => (
           <tr key={idx}>
             <td>{item.outcome}</td>
-            <td>{item.probability}</td>
+            <td className={getConfidenceClass(item.probability)}>{item.probability}</td>
             <td>{item.odds}</td>
             <td>{item.market}</td>
             <td>{item.suggestion}</td>
@@ -111,7 +119,7 @@ function PredictionApp() {
         {Object.entries(dc).map(([key, value], idx) => (
           <tr key={idx}>
             <td>{key}</td>
-            <td>{value}</td>
+            <td className={getConfidenceClass(value)}>{value}</td>
           </tr>
         ))}
       </tbody>
