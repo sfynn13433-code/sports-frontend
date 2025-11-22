@@ -7,7 +7,7 @@ function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [league, setLeague] = useState("");
-  const [result, setResult] = useState({ predictions: [] }); // Initialized as object with empty predictions array
+  const [result, setResult] = useState({ predictions: [] }); // Initialized with empty predictions array
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,7 +24,6 @@ function PredictionApp() {
           league,
         }
       );
-      // Ensure the response has predictions array or default to empty array
       setResult({
         predictions: response.data.predictions || [],
       });
@@ -37,7 +36,7 @@ function PredictionApp() {
 
   return (
     <div className="skcs-app">
-      {/* Hero Banner */}
+      {/* Hero Banner with image and heading */}
       <div className="skcs-hero-banner">
         <img src="/image/skcs-hero.png" alt="SKCS Sports Predictions" />
         <h1>AI-powered insights. Expert-backed predictions.</h1>
@@ -91,7 +90,7 @@ function PredictionApp() {
           </div>
         )}
 
-        {!loading && result && (
+        {!loading && result && Array.isArray(result.predictions) && (
           <div className="skcs-table-wrapper">
             <table className="skcs-table">
               <thead>
@@ -103,7 +102,7 @@ function PredictionApp() {
                 </tr>
               </thead>
               <tbody>
-                {result.predictions?.map((prediction, index) => (
+                {result.predictions.map((prediction, index) => (
                   <tr key={index}>
                     <td>{prediction.market}</td>
                     <td>{prediction.probability}%</td>

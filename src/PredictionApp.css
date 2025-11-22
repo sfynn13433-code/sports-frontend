@@ -53,23 +53,28 @@ code {
   flex-direction: column;
 }
 
-/* Header */
-.skcs-header {
+/* Hero Banner */
+.skcs-hero-banner {
+  text-align: center;
+  padding: 32px 24px;
   background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
   border-bottom: 1px solid var(--border);
-  padding: 20px 24px;
 }
 
-.skcs-title h1 {
-  margin: 0 0 6px;
+.skcs-hero-banner img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+  margin-bottom: 16px;
+}
+
+.skcs-hero-banner h1 {
+  font-size: 1.8rem;
   font-weight: 700;
-  letter-spacing: 0.3px;
-}
-
-.skcs-title p {
+  color: var(--primary);
   margin: 0;
-  color: var(--muted);
-  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 /* Form */
@@ -137,37 +142,6 @@ code {
 
 .skcs-primary:hover {
   background: var(--primary-700);
-}
-
-/* Tabs */
-.skcs-tabs {
-  display: flex;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-}
-
-.skcs-tab {
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.skcs-tab:hover {
-  border-color: var(--primary);
-}
-
-.skcs-tab.active {
-  background: var(--primary);
-  color: #0b1324;
-  border-color: var(--primary);
 }
 
 /* Content */
@@ -306,33 +280,10 @@ code {
   padding: 12px;
 }
 
-/* Hero Banner Section */
-.skcs-hero-banner {
-  text-align: center;
-  padding: 32px 24px;
-  background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
-  border-bottom: 1px solid var(--border);
-}
-
-.skcs-hero-banner img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
-  margin-bottom: 16px;
-}
-
-.skcs-hero-banner h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--primary);
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-
 /* Confidence Legend Panel */
 .skcs-confidence-panel {
   display: flex;
   justify-content: center;
   gap: 12px;
-  padding: 16px
+  padding: 16px;
+}
