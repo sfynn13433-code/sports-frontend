@@ -7,7 +7,7 @@ function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [league, setLeague] = useState("");
-  const [result, setResult] = useState({ predictions: [] });
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,9 +24,8 @@ function PredictionApp() {
           league,
         }
       );
-      setResult({
-        predictions: response.data.predictions || [],
-      });
+      // Save the full backend response
+      setResult(response.data);
     } catch (err) {
       setError("Error fetching prediction. Please try again.");
     } finally {
@@ -90,34 +89,46 @@ function PredictionApp() {
           </div>
         )}
 
-        {!loading && result && Array.isArray(result.predictions) && (
-          <div className="skcs-table-wrapper">
-            <table className="skcs-table">
-              <thead>
-                <tr>
-                  <th>Market</th>
-                  <th>Probability</th>
-                  <th>Confidence</th>
-                  <th>Rationale</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.predictions.map((prediction, index) => (
-                  <tr key={index}>
-                    <td>{prediction.market}</td>
-                    <td>{prediction.probability}%</td>
-                    <td>
-                      <span
-                        className={`confidence-${prediction.confidence.toLowerCase()}`}
-                      >
-                        {prediction.confidence}
-                      </span>
-                    </td>
-                    <td>{prediction.rationale}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {!loading && result && (
+          <div className="skcs-result">
+            {/* Show backend fields */}
+            {result.match && <h3>{result.match}</h3>}
+            {result.source && <p><strong>Source:</strong> {result.source}</p>}
+            {result.methodology && (
+              <p><strong>Methodology:</strong> {result.methodology}</p>
+            )}
+
+            {/* If backend later returns predictions array, show table */}
+            {Array.isArray(result.predictions) && result.predictions.length > 0 && (
+              <div className="skcs-table-wrapper">
+                <table className="skcs-table">
+                  <thead>
+                    <tr>
+                      <th>Market</th>
+                      <th>Probability</th>
+                      <th>Confidence</th>
+                      <th>Rationale</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.predictions.map((prediction, index) => (
+                      <tr key={index}>
+                        <td>{prediction.market}</td>
+                        <td>{prediction.probability}%</td>
+                        <td>
+                          <span
+                            className={`confidence-${prediction.confidence.toLowerCase()}`}
+                          >
+                            {prediction.confidence}
+                          </span>
+                        </td>
+                        <td>{prediction.rationale}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
