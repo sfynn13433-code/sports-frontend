@@ -7,7 +7,7 @@ function PredictionApp() {
   const [homeTeam, setHomeTeam] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [league, setLeague] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState({ predictions: [] }); // Initialized as object with empty predictions array
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,7 +24,10 @@ function PredictionApp() {
           league,
         }
       );
-      setResult(response.data);
+      // Ensure the response has predictions array or default to empty array
+      setResult({
+        predictions: response.data.predictions || [],
+      });
     } catch (err) {
       setError("Error fetching prediction. Please try again.");
     } finally {
@@ -100,7 +103,7 @@ function PredictionApp() {
                 </tr>
               </thead>
               <tbody>
-                {result.predictions.map((prediction, index) => (
+                {result.predictions?.map((prediction, index) => (
                   <tr key={index}>
                     <td>{prediction.market}</td>
                     <td>{prediction.probability}%</td>
