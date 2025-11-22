@@ -99,6 +99,7 @@ function PredictionApp() {
                 <strong>Consensus:</strong> {result.consensus.rationale}
               </p>
             )}
+
             {result.markets && result.markets.map(({ heading, options }, i) => (
               <div key={i} style={{ marginBottom: 30 }}>
                 <h3>{heading}</h3>
@@ -126,6 +127,7 @@ function PredictionApp() {
                 </ul>
               </div>
             ))}
+
             {result.expert_notes && (
               <p><strong>Notes:</strong> {result.expert_notes}</p>
             )}
