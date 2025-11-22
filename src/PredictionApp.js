@@ -81,7 +81,7 @@ function PredictionApp() {
   };
 
   const renderTable = (data) => (
-    <table>
+    <table className="skcs-table">
       <thead>
         <tr>
           <th>Outcome</th>
@@ -108,7 +108,7 @@ function PredictionApp() {
   );
 
   const renderDoubleChance = (dc) => (
-    <table>
+    <table className="skcs-table">
       <thead>
         <tr>
           <th>Type</th>

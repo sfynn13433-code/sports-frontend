@@ -3,13 +3,13 @@
 
 /* Root theme variables */
 :root {
-  --bg: #0f172a;            /* deep slate background */
-  --panel: #111827;         /* darker panel */
-  --text: #e5e7eb;          /* light gray text */
+  --bg: #0f172a;
+  --panel: #111827;
+  --text: #e5e7eb;
   --muted: #9ca3af;
-  --primary: #10b981;       /* emerald green */
+  --primary: #10b981;
   --primary-700: #059669;
-  --accent: #2cc5c5;        /* teal for spinner */
+  --accent: #2cc5c5;
   --border: #1f2937;
   --table-header: #1f2937;
   --table-row: #0b1324;
@@ -17,7 +17,7 @@
   --chip-high: #16a34a;
   --chip-medium: #f59e0b;
   --chip-low: #ef4444;
-  --chip-none: #6b7280;      /* neutral gray for "not happening" */
+  --chip-none: #6b7280;
 }
 
 /* Reset and base typography */
@@ -42,7 +42,6 @@ body {
   color: var(--text);
 }
 
-/* Code blocks */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -211,7 +210,7 @@ code {
 /* Enhanced table headings */
 .skcs-table thead th {
   background: var(--table-header);
-  color: var(--primary);       /* emerald accent for headings */
+  color: var(--primary);
   font-weight: 700;
   padding: 12px;
   text-align: left;
@@ -221,7 +220,7 @@ code {
 }
 
 .skcs-table thead th:hover {
-  color: var(--accent);        /* teal highlight on hover */
+  color: var(--accent);
   cursor: default;
 }
 
@@ -233,7 +232,7 @@ code {
 
 /* Subtle background shading for Probability column */
 .skcs-table tbody td:nth-child(2) {
-  background-color: rgba(16, 185, 129, 0.05); /* faint emerald tint */
+  background-color: rgba(16, 185, 129, 0.05);
 }
 
 .skcs-table tbody tr:nth-child(even) td {
@@ -273,6 +272,7 @@ code {
   text-align: center;
 }
 
+/* Legend */
 .skcs-legend {
   display: flex;
   gap: 8px;
@@ -306,9 +306,29 @@ code {
   padding: 12px;
 }
 
-/* Responsive */
-@media (max-width: 980px) {
-  .skcs-row {
-    grid-template-columns: 1fr;
-  }
+/* Hero Banner Section */
+.skcs-hero-banner {
+  text-align: center;
+  padding: 32px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
+  border-bottom: 1px solid var(--border);
 }
+
+.skcs-hero-banner img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+  margin-bottom: 16px;
+}
+
+.skcs-hero-banner h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Confidence Legend Panel */
+.sk
