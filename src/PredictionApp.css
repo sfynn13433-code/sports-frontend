@@ -45,7 +45,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-/* Layout shell */
+/* Container */
 .skcs-app {
   min-height: 100vh;
   display: flex;
@@ -160,44 +160,106 @@ code {
   color: var(--muted);
 }
 
-/* Confidence-based probability colors */
-.confidence-high {
-  background-color: var(--chip-high);
-  color: #fff;
-  font-weight: 700;
-  border-radius: 6px;
-  text-align: center;
+/* Match Info Section */
+.match-info h3 {
+  margin-bottom: 8px;
+  color: var(--primary);
 }
-.confidence-medium {
-  background-color: var(--chip-medium);
-  color: #fff;
-  font-weight: 700;
-  border-radius: 6px;
-  text-align: center;
-}
-.confidence-low {
-  background-color: var(--chip-low);
-  color: #fff;
-  font-weight: 700;
-  border-radius: 6px;
-  text-align: center;
-}
-.confidence-none {
-  background-color: var(--chip-none);
-  color: #fff;
-  font-weight: 700;
-  border-radius: 6px;
-  text-align: center;
+.match-info p {
+  margin: 4px 0;
+  font-weight: 600;
 }
 
-/* Legend */
-.skcs-legend {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border-top: 1px solid var(--border);
-  background: var(--panel);
+/* Stats, Events, Lineups */
+.stats-list,
+.events-list,
+.lineups {
+  margin-top: 24px;
 }
+.stats-list h4,
+.events-list h4,
+.lineups h4 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.stats-list ul,
+.events-list ul,
+.lineups ul {
+  padding-left: 20px;
+  color: var(--text);
+}
+.stats-list li,
+.events-list li,
+.lineups li {
+  margin-bottom: 6px;
+}
+.lineups > div {
+  margin-bottom: 16px;
+}
+.lineup-team strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+.lineup-team ul {
+  padding-left: 20px;
+}
+
+/* Market Sections */
+.market-section {
+  margin-bottom: 30px;
+}
+.market-heading {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.market-description {
+  font-style: italic;
+  color: var(--muted);
+  max-width: 600px;
+  margin-bottom: 10px;
+}
+.market-options {
+  list-style: none;
+  padding-left: 0;
+  max-width: 420px;
+}
+.market-option {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 14px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: default;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Probability Colors */
+.prob-high {
+  background-color: var(--chip-high);
+  color: white;
+}
+.prob-medium {
+  background-color: var(--chip-medium);
+  color: black;
+}
+.prob-low {
+  background-color: var(--chip-low);
+  color: white;
+}
+
+/* Confidence Legend Panel */
+.skcs-confidence-panel {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+/* Chips for legend */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -228,55 +290,4 @@ code {
   color: var(--muted);
   text-align: center;
   padding: 12px;
-}
-
-/* Confidence Legend Panel */
-.skcs-confidence-panel {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 16px;
-}
-
-/* New Sections Styling */
-.match-info h3 {
-  margin-bottom: 8px;
-  color: var(--primary);
-}
-
-.match-info p {
-  margin: 4px 0;
-  font-weight: 600;
-}
-
-.stats-list, .events-list, .lineups {
-  margin-top: 24px;
-}
-
-.stats-list h4, .events-list h4, .lineups h4 {
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.stats-list ul, .events-list ul, .lineups ul {
-  padding-left: 20px;
-  color: var(--text);
-}
-
-.stats-list li, .events-list li, .lineups li {
-  margin-bottom: 6px;
-}
-
-.lineups > div {
-  margin-bottom: 16px;
-}
-
-.lineup-team strong {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--accent);
-}
-
-.lineup-team ul {
-  padding-left: 20px;
 }
