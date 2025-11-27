@@ -1,88 +1,117 @@
-import { ArrowRight, Zap, Sparkles, Github, Twitter, Linkedin } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, BarChart3, Target, Trophy, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
       {/* Navigation */}
-      <nav className="border-b border-slate-800/50 backdrop-blur-sm bg-slate-950/80">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+      <nav className="border-b border-gold-700/30 backdrop-blur-sm bg-slate-950/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center font-bold text-slate-950">
+              ⚽
             </div>
-            <span className="text-xl font-bold text-white">Builder</span>
+            <div>
+              <p className="text-xs text-gold-300 font-semibold">SKCS AI</p>
+              <p className="text-sm font-bold text-white">Sports Predictions</p>
+            </div>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-slate-300 hover:text-white transition">Features</a>
-            <a href="#how-it-works" className="text-slate-300 hover:text-white transition">How It Works</a>
-            <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
-              Get Started
-            </button>
+            <a href="#features" className="text-gray-300 hover:text-gold-400 transition text-sm">
+              Features
+            </a>
+            <a href="#leagues" className="text-gray-300 hover:text-gold-400 transition text-sm">
+              Leagues
+            </a>
+            <a href="#how-it-works" className="text-gray-300 hover:text-gold-400 transition text-sm">
+              How It Works
+            </a>
+            <Link
+              to="/predictions"
+              className="px-5 py-2 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-semibold transition"
+            >
+              View Predictions
+            </Link>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
-              <Zap className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-blue-300">Powered by AI</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold-500/10 border border-gold-500/30 rounded-full">
+              <Zap className="w-4 h-4 text-gold-400" />
+              <span className="text-sm text-gold-300 font-semibold">AI-Powered Predictions</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              Build{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-                beautiful apps
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+              Smart{" "}
+              <span className="bg-gradient-to-r from-gold-400 to-gold-500 bg-clip-text text-transparent">
+                sports predictions
               </span>
-              {" "}from scratch, instantly
+              {" "}powered by AI
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-300 leading-relaxed">
-              No developer setup required. Builder's AI guides you through every step, automatically generating production-ready code and keeping everything synchronized.
+            <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
+              SKCS AI delivers data-driven match forecasts, real-time insights, and actionable betting predictions across major leagues worldwide. Stay ahead with machine learning precision.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition transform hover:scale-105">
-                Start Building
+            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+              <Link
+                to="/predictions"
+                className="px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-bold flex items-center justify-center gap-2 transition transform hover:scale-105"
+              >
+                Explore Predictions
                 <ArrowRight className="w-5 h-5" />
-              </button>
-              <button className="px-8 py-3 border border-slate-700 hover:border-slate-600 text-white rounded-lg font-semibold transition">
-                View Demo
+              </Link>
+              <button className="px-8 py-4 border-2 border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-200 rounded-lg font-semibold transition">
+                Learn More
               </button>
             </div>
 
-            <div className="pt-8 flex items-center gap-6 text-slate-400">
-              <div className="text-sm">
-                <p className="font-semibold text-white">10,000+</p>
-                <p>Apps Created</p>
+            <div className="pt-8 flex items-center gap-8 text-gray-400">
+              <div>
+                <p className="font-bold text-2xl text-gold-400">87.3%</p>
+                <p className="text-sm">Avg Accuracy</p>
               </div>
-              <div className="w-px h-8 bg-slate-700"></div>
-              <div className="text-sm">
-                <p className="font-semibold text-white">99.9%</p>
-                <p>Uptime</p>
+              <div className="w-px h-12 bg-gold-700/30"></div>
+              <div>
+                <p className="font-bold text-2xl text-gold-400">15,000+</p>
+                <p className="text-sm">Predictions Daily</p>
               </div>
-              <div className="w-px h-8 bg-slate-700"></div>
-              <div className="text-sm">
-                <p className="font-semibold text-white">24/7</p>
-                <p>AI Support</p>
+              <div className="w-px h-12 bg-gold-700/30"></div>
+              <div>
+                <p className="font-bold text-2xl text-gold-400">6</p>
+                <p className="text-sm">Major Leagues</p>
               </div>
             </div>
           </div>
 
           <div className="relative hidden lg:block">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-3xl opacity-20"></div>
-            <div className="relative bg-slate-900 border border-slate-700/50 rounded-2xl p-8 space-y-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-gold-600 to-gold-700 rounded-2xl blur-3xl opacity-15"></div>
+            <div className="relative bg-slate-900/50 border border-gold-600/20 rounded-2xl p-8 space-y-4">
               <div className="space-y-3">
-                <div className="h-3 bg-slate-700 rounded-full w-1/3"></div>
-                <div className="h-3 bg-slate-700 rounded-full w-2/3"></div>
-                <div className="h-3 bg-slate-700 rounded-full w-1/2"></div>
+                <div className="flex items-center justify-between">
+                  <div className="h-3 bg-gold-600/30 rounded-full w-2/5"></div>
+                  <div className="text-xs text-gold-400 font-semibold">LIVE</div>
+                </div>
+                <div className="h-3 bg-gold-600/30 rounded-full w-3/4"></div>
+                <div className="h-3 bg-gold-600/30 rounded-full w-2/3"></div>
               </div>
-              <div className="pt-4 space-y-2">
-                <div className="h-2 bg-gradient-to-r from-blue-500/50 to-transparent rounded-full"></div>
-                <div className="h-2 bg-gradient-to-r from-blue-500/30 to-transparent rounded-full"></div>
+              <div className="pt-6 space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full flex items-center justify-center text-sm font-bold">
+                    ✓
+                  </div>
+                  <div className="flex-1 h-2 bg-gold-500/50 rounded-full"></div>
+                  <div className="text-xs text-gold-300">68%</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-slate-700"></div>
+                  <div className="flex-1 h-2 bg-slate-700 rounded-full"></div>
+                  <div className="text-xs text-slate-400">32%</div>
+                </div>
               </div>
             </div>
           </div>
@@ -90,149 +119,256 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Everything you need to build apps
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            Powered by Advanced AI
           </h2>
-          <p className="text-lg text-slate-400">
-            Powerful features designed to accelerate your workflow
+          <p className="text-lg text-gray-400">
+            Cutting-edge machine learning models for unmatched prediction accuracy
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {[
             {
-              icon: Sparkles,
-              title: "AI-Powered Code Generation",
-              description: "Automatically generate clean, production-ready code that follows best practices",
+              icon: Target,
+              title: "Match Outcome Predictions",
+              description: "AI-forecasted winners, draws, and loss probabilities with real-time confidence scores",
+            },
+            {
+              icon: TrendingUp,
+              title: "Goals & Score Forecasts",
+              description: "Over/Under predictions and exact score insights to guide your decisions",
+            },
+            {
+              icon: BarChart3,
+              title: "Live Match Insights",
+              description: "Real-time player stats, team performance metrics, and trend analysis during matches",
+            },
+            {
+              icon: Trophy,
+              title: "League Coverage",
+              description: "Major tournaments worldwide with historical data-driven predictions",
             },
             {
               icon: Zap,
-              title: "Lightning Fast Setup",
-              description: "No complex configurations or developer environment needed to get started",
+              title: "Suggested Bets",
+              description: "Data-backed betting recommendations tailored to current odds",
             },
             {
-              icon: ArrowRight,
-              title: "Real-Time Synchronization",
-              description: "Watch your changes instantly as the AI updates your app with new features",
+              icon: TrendingUp,
+              title: "Continuous Learning",
+              description: "Self-improving algorithms that adapt to new patterns and season trends",
             },
           ].map((feature, idx) => {
             const Icon = feature.icon;
             return (
               <div
                 key={idx}
-                className="p-6 rounded-xl border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800/50 hover:border-slate-600/50 transition"
+                className="p-6 rounded-xl border border-gold-600/20 bg-slate-900/50 hover:bg-slate-900/70 hover:border-gold-500/40 transition group"
               >
-                <Icon className="w-8 h-8 text-blue-400 mb-4" />
+                <Icon className="w-10 h-10 text-gold-400 mb-4 group-hover:scale-110 transition" />
                 <h3 className="text-lg font-semibold text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-slate-400">{feature.description}</p>
+                <p className="text-gray-400 text-sm">{feature.description}</p>
               </div>
             );
           })}
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
-          How It Works
+      {/* Leagues Section */}
+      <section id="leagues" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-slate-900/30 rounded-3xl">
+        <h2 className="text-4xl sm:text-5xl font-bold text-white text-center mb-16">
+          Global League Coverage
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { name: "Premier League", flag: "🇬🇧", matches: "1,847", accuracy: "87.3%" },
+            { name: "La Liga", flag: "🇪🇸", matches: "1,652", accuracy: "85.9%" },
+            { name: "Serie A", flag: "🇮🇹", matches: "1,523", accuracy: "84.2%" },
+            { name: "Bundesliga", flag: "🇩🇪", matches: "1,734", accuracy: "86.1%" },
+            { name: "Ligue 1", flag: "🇫🇷", matches: "1,456", accuracy: "83.5%" },
+            { name: "Champions League", flag: "🏆", matches: "821", accuracy: "88.7%" },
+          ].map((league, idx) => (
+            <div
+              key={idx}
+              className="p-6 rounded-xl border border-gold-600/20 bg-slate-800/50 hover:bg-slate-800/80 transition"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className="text-3xl mb-2">{league.flag}</p>
+                  <h3 className="text-lg font-bold text-white">{league.name}</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-gold-400">{league.accuracy}</p>
+                  <p className="text-xs text-gray-400">accuracy</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-400">
+                <span className="font-semibold text-gold-300">{league.matches}</span> predictions analyzed
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <h2 className="text-4xl sm:text-5xl font-bold text-white text-center mb-16">
+          How SKCS AI Works
         </h2>
 
         <div className="grid md:grid-cols-4 gap-6">
           {[
-            { step: "1", title: "Describe", desc: "Tell Builder what app you want to create" },
-            { step: "2", title: "Generate", desc: "AI automatically creates your codebase" },
-            { step: "3", title: "Refine", desc: "Iterate and improve with AI guidance" },
-            { step: "4", title: "Deploy", desc: "Ship your app to production instantly" },
+            {
+              step: "1",
+              title: "Data Collection",
+              desc: "Aggregates historical match data, player stats, and real-time metrics",
+            },
+            {
+              step: "2",
+              title: "AI Analysis",
+              desc: "Machine learning models analyze patterns and identify winning indicators",
+            },
+            {
+              step: "3",
+              title: "Prediction Engine",
+              desc: "Generates probabilities and suggests optimal bets with confidence scores",
+            },
+            {
+              step: "4",
+              title: "Real-Time Insights",
+              desc: "Updates predictions during matches as new data flows in",
+            },
           ].map((item, idx) => (
             <div key={idx} className="relative">
               <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white font-bold">{item.step}</span>
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center mx-auto mb-4 font-bold text-slate-950 text-xl shadow-lg">
+                  {item.step}
                 </div>
-                <h3 className="font-semibold text-white mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-400">{item.desc}</p>
+                <h3 className="font-bold text-white mb-2 text-lg">{item.title}</h3>
+                <p className="text-sm text-gray-400">{item.desc}</p>
               </div>
               {idx < 3 && (
-                <div className="hidden md:block absolute top-6 -right-3 w-6 h-0.5 bg-gradient-to-r from-blue-500 to-transparent"></div>
+                <div className="hidden md:block absolute top-8 -right-3 w-6 h-1 bg-gradient-to-r from-gold-500 to-transparent"></div>
               )}
             </div>
           ))}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 p-12 sm:p-16">
+      {/* Pricing/CTA Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gold-600 to-gold-700 p-12 sm:p-16">
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent transform -skew-x-12"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-950 to-transparent transform -skew-x-12"></div>
           </div>
           <div className="relative text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Ready to build your next app?
+            <h2 className="text-4xl sm:text-5xl font-bold text-slate-950 mb-4">
+              Start Making Smarter Predictions
             </h2>
-            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of developers building beautiful, production-ready applications with AI
+            <p className="text-slate-800 text-lg mb-8 max-w-2xl mx-auto font-medium">
+              Free access to daily predictions. Unlock premium insights and advanced analytics with a subscription.
             </p>
-            <button className="px-8 py-3 bg-white hover:bg-slate-100 text-blue-600 font-semibold rounded-lg transition transform hover:scale-105">
-              Get Started Free
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/predictions"
+                className="px-8 py-4 bg-slate-950 hover:bg-slate-900 text-gold-400 font-bold rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                View Free Predictions
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+              <button className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-lg transition backdrop-blur-sm">
+                Learn About Premium
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/50 bg-slate-950/50 backdrop-blur-sm mt-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <footer className="border-t border-gold-700/20 bg-slate-950/50 backdrop-blur-sm mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-8 h-8 bg-gradient-to-br from-gold-400 to-gold-600 rounded-lg flex items-center justify-center font-bold text-slate-950">
+                  ⚽
                 </div>
-                <span className="font-bold text-white">Builder</span>
+                <span className="font-bold text-white">SKCS AI</span>
               </div>
-              <p className="text-slate-400 text-sm">
-                The AI-powered platform for building production apps in minutes
+              <p className="text-gray-400 text-sm">
+                Enterprise-grade AI sports predictions for smarter decisions
               </p>
             </div>
             <div>
               <h4 className="font-semibold text-white mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="#" className="hover:text-white transition">Features</a></li>
-                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition">Docs</a></li>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <Link to="/predictions" className="hover:text-gold-400 transition">
+                    Predictions
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    API
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-white mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="#" className="hover:text-white transition">About</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition">Contact</a></li>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Contact
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Follow</h4>
-              <div className="flex gap-4">
-                <a href="#" className="text-slate-400 hover:text-white transition">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-slate-400 hover:text-white transition">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-slate-400 hover:text-white transition">
-                  <Linkedin className="w-5 h-5" />
-                </a>
-              </div>
+              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-gold-400 transition">
+                    Responsible Betting
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="border-t border-slate-800 pt-8">
-            <p className="text-center text-sm text-slate-500">
-              © 2024 Builder. All rights reserved.
+          <div className="border-t border-gold-700/20 pt-8">
+            <p className="text-center text-sm text-gray-500">
+              © 2025 SKCS AI Sports Prediction PYT (Ltd). Enterprise Number: 2025/918368/07. All rights reserved.
             </p>
           </div>
         </div>
