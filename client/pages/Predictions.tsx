@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Filter, Search, TrendingUp, Home } from "lucide-react";
+import { Filter, Search, TrendingUp, Home, X } from "lucide-react";
 import { mockMatches, leaguesInfo } from "../lib/mock-predictions";
 
 export default function Predictions() {
