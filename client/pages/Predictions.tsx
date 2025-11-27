@@ -4,20 +4,45 @@ import { Filter, Search, TrendingUp, Home, X } from "lucide-react";
 import { mockMatches, leaguesInfo } from "../lib/mock-predictions";
 
 export default function Predictions() {
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "upcoming" | "live" | "finished">("upcoming");
 
+  // Get unique countries
+  const countries = useMemo(() => {
+    const uniqueCountries = Array.from(new Set(leaguesInfo.map(league => league.country)))
+      .map(country => {
+        const flag = leaguesInfo.find(l => l.country === country)?.flag || "🌍";
+        return { name: country, flag };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return uniqueCountries;
+  }, []);
+
+  // Get leagues for selected country
+  const filteredLeagues = useMemo(() => {
+    if (!selectedCountry) return leaguesInfo;
+    return leaguesInfo.filter(league => league.country === selectedCountry);
+  }, [selectedCountry]);
+
+  // Reset league filter when country changes
+  const handleCountryChange = (country: string | null) => {
+    setSelectedCountry(country);
+    setSelectedLeague(null);
+  };
+
   const filteredMatches = useMemo(() => {
     return mockMatches.filter((match) => {
+      const countryMatch = selectedCountry ? match.country === selectedCountry : true;
       const leagueMatch = selectedLeague ? match.leagueCode === selectedLeague : true;
       const statusMatch = statusFilter === "all" ? true : match.status === statusFilter;
       const searchMatch =
         match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) ||
         match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
-      return leagueMatch && statusMatch && searchMatch;
+      return countryMatch && leagueMatch && statusMatch && searchMatch;
     });
-  }, [selectedLeague, searchTerm, statusFilter]);
+  }, [selectedCountry, selectedLeague, searchTerm, statusFilter]);
 
   const getPredictionColor = (probability: number): string => {
     if (probability >= 60) return "text-green-400";
