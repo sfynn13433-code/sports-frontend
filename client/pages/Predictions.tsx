@@ -224,11 +224,17 @@ export default function Predictions() {
                       <span className={`text-xs font-bold px-3 py-1 rounded-full border ${getStatusBadge(match.status)}`}>
                         {getStatusText(match.status)}
                       </span>
-                      <p className="text-xs text-gray-400">{match.league}</p>
+                      <div className="text-right sm:text-left">
+                        <p className="text-xs text-gold-400 font-semibold">{match.league}</p>
+                        <p className="text-xs text-gray-500">{match.division}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">
-                      {new Date(match.date).toLocaleDateString()} at {match.time}
-                    </p>
+                    <div className="flex items-center justify-between sm:flex-col sm:items-start gap-2 mt-2">
+                      <p className="text-xs text-gray-500">
+                        {new Date(match.date).toLocaleDateString()} at {match.time}
+                      </p>
+                      <p className="text-xs text-gray-400 font-semibold">{match.country}</p>
+                    </div>
                   </div>
 
                   {/* Teams */}
