@@ -112,8 +112,8 @@ export default function Predictions() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8 overflow-x-auto pb-2">
+        {/* Status Filter */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-6 overflow-x-auto pb-2">
           <div className="flex items-center gap-2 min-w-max">
             <Filter className="w-4 h-4 text-gold-400" />
             <span className="text-sm text-gray-300 font-semibold">Status:</span>
@@ -133,9 +133,51 @@ export default function Predictions() {
           ))}
         </div>
 
-        {/* League Tags */}
-        <div className="flex flex-col sm:flex-row gap-2 mb-8 items-start sm:items-center">
-          <span className="text-sm text-gray-300 font-semibold">Leagues:</span>
+        {/* Country Filter */}
+        <div className="flex flex-col gap-3 mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-300 font-semibold">Country:</span>
+            {selectedCountry && (
+              <button
+                onClick={() => handleCountryChange(null)}
+                className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
+              >
+                {selectedCountry}
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {countries.map((country) => (
+              <button
+                key={country.name}
+                onClick={() => handleCountryChange(selectedCountry === country.name ? null : country.name)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
+                  selectedCountry === country.name
+                    ? "bg-gold-600 text-slate-950"
+                    : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
+                }`}
+              >
+                {country.flag} {country.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* League Filter */}
+        <div className="flex flex-col gap-3 mb-8">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-300 font-semibold">League:</span>
+            {selectedLeague && (
+              <button
+                onClick={() => setSelectedLeague(null)}
+                className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
+              >
+                {leaguesInfo.find(l => l.code === selectedLeague)?.name}
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedLeague(null)}
@@ -147,7 +189,7 @@ export default function Predictions() {
             >
               All Leagues
             </button>
-            {leaguesInfo.map((league) => (
+            {filteredLeagues.map((league) => (
               <button
                 key={league.code}
                 onClick={() => setSelectedLeague(league.code)}
@@ -157,7 +199,7 @@ export default function Predictions() {
                     : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
                 }`}
               >
-                {league.code}
+                {league.flag} {league.code}
               </button>
             ))}
           </div>
