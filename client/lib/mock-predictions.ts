@@ -57,7 +57,7 @@ export const mockMatches: Match[] = [
     homeTeam: "Real Madrid",
     awayTeam: "Barcelona",
     homeLogoUrl: "👑",
-    awayLogoUrl: "���",
+    awayLogoUrl: "🔵",
     league: "La Liga",
     leagueCode: "LL",
     date: "2024-01-15",
@@ -416,5 +416,12 @@ export const leaguesInfo = [
     country: "Europe",
     accuracy: "88.7%",
     totalMatches: 821,
+  },
+  {
+    code: "PKL",
+    name: "Pro Kabaddi League",
+    country: "India",
+    accuracy: "84.6%",
+    totalMatches: 2156,
   },
 ];
