@@ -1,4 +1,4 @@
-import { ArrowRight, TrendingUp, Zap, BarChart3, Target, Trophy, ChevronRight } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, BarChart3, Target, Trophy, ChevronRight, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
