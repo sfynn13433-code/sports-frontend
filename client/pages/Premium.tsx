@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Check, Home, AlertCircle } from "lucide-react";
+import type { ReactNode } from "react";
 
 export default function Premium() {
   const plans = [

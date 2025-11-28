@@ -1,4 +1,4 @@
-import { ArrowRight, TrendingUp, Zap, BarChart3, Target, Trophy, ChevronRight, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, BarChart3, Target, Trophy, ChevronRight, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -353,11 +353,11 @@ export default function Index() {
           {[
             { name: "5 Days", price: "$2.40", features: ["All sports", "Basic predictions", "Email alerts"] },
             { name: "Monthly", price: "$10", features: ["All features", "Accuracy analytics", "Dashboard", "Priority support"], highlighted: true },
-            { name: "Annual", price: "$105", features: ["All Monthly +", "Full history", "Advanced analytics", "24/7 support"], highlight: true },
+            { name: "Annual", price: "$105", features: ["All Monthly +", "Full history", "Advanced analytics", "24/7 support"] },
           ].map((plan, idx) => (
             <div
               key={idx}
-              className={`p-8 rounded-2xl border transition transform hover:scale-105 ${
+              className={`relative p-8 rounded-2xl border transition transform hover:scale-105 ${
                 plan.highlighted
                   ? "border-gold-500/50 bg-gradient-to-br from-gold-950/40 to-slate-950 ring-2 ring-gold-500/30 shadow-xl shadow-gold-500/20"
                   : "border-gold-600/20 bg-slate-900/50"
@@ -373,7 +373,7 @@ export default function Index() {
               <ul className="space-y-2 mb-8">
                 {plan.features.map((feature, fidx) => (
                   <li key={fidx} className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle className="w-4 h-4 text-gold-400" />
+                    <span className="text-gold-400">✓</span>
                     {feature}
                   </li>
                 ))}
