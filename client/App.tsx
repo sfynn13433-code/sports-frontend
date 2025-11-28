@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { NotificationCenter } from "./components/NotificationCenter";
 import Index from "./pages/Index";
 import Predictions from "./pages/Predictions";
 import Leagues from "./pages/Leagues";
@@ -20,6 +21,11 @@ export default function App() {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* Notification Center - Available on all pages */}
+          <div className="fixed top-4 right-4 z-50">
+            <NotificationCenter />
+          </div>
+
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/predictions" element={<Predictions />} />
