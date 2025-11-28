@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Filter, Search, TrendingUp, Home, X } from "lucide-react";
+import { Filter, Search, TrendingUp, Home, X, AlertCircle } from "lucide-react";
 import { sportsMatches, SPORTS, PREDICTION_TYPES } from "../lib/sports-predictions";
 
 export default function Predictions() {
