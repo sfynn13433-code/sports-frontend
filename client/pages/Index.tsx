@@ -118,48 +118,106 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Sports Coverage Section */}
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Powered by Advanced AI
+            6 Major Sports, Unlimited Predictions
           </h2>
           <p className="text-lg text-gray-400">
-            Cutting-edge machine learning models for unmatched prediction accuracy
+            Comprehensive AI-powered forecasts across football, rugby, tennis, snooker, ice hockey, and basketball
           </p>
         </div>
 
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {[
+            {
+              sport: "⚽ Football",
+              emoji: "⚽",
+              predictions: ["Full-Time Results", "Half-Time/Full-Time", "Both Teams to Score", "Correct Scores", "First/Last Goal Scorers"],
+              color: "from-green-600 to-green-700",
+            },
+            {
+              sport: "🏈 Rugby",
+              emoji: "🏈",
+              predictions: ["Match Results", "Point Spreads", "Try Scorers", "Total Points", "Half-Time Results"],
+              color: "from-orange-600 to-orange-700",
+            },
+            {
+              sport: "🎾 Tennis",
+              emoji: "🎾",
+              predictions: ["Match Winners", "Set Winners", "Correct Scores", "Tie-Break Predictions", "Game Totals"],
+              color: "from-yellow-600 to-yellow-700",
+            },
+            {
+              sport: "🎱 Snooker",
+              emoji: "🎱",
+              predictions: ["Frame Winners", "Correct Frame Score", "Highest Break", "Century Breaks", "Match Results"],
+              color: "from-red-600 to-red-700",
+            },
+            {
+              sport: "🏒 Ice Hockey",
+              emoji: "🏒",
+              predictions: ["Full-Time Results", "Period Winners", "Total Goals", "Goal Scorers", "Puck Line"],
+              color: "from-blue-600 to-blue-700",
+            },
+            {
+              sport: "🏀 Basketball",
+              emoji: "🏀",
+              predictions: ["Match Winners", "Point Spreads", "Over/Under Points", "Quarter Winners", "Player Props"],
+              color: "from-orange-500 to-orange-600",
+            },
+          ].map((sport, idx) => (
+            <div
+              key={idx}
+              className={`p-6 rounded-xl border border-gold-600/20 bg-gradient-to-br ${sport.color} bg-opacity-10 hover:border-gold-500/40 transition group`}
+            >
+              <p className="text-3xl mb-3">{sport.emoji}</p>
+              <h3 className="text-xl font-bold text-white mb-4">{sport.sport}</h3>
+              <ul className="space-y-2">
+                {sport.predictions.map((pred, pidx) => (
+                  <li key={pidx} className="flex items-start gap-2 text-sm text-gray-300">
+                    <span className="text-gold-400 mt-1">✓</span>
+                    <span>{pred}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Core Features */}
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
               icon: Target,
-              title: "Match Outcome Predictions",
-              description: "AI-forecasted winners, draws, and loss probabilities with real-time confidence scores",
+              title: "AI-Powered Accuracy",
+              description: "Machine learning models trained on years of historical data deliver predictions with 85%+ confidence scores",
             },
             {
               icon: TrendingUp,
-              title: "Goals & Score Forecasts",
-              description: "Over/Under predictions and exact score insights to guide your decisions",
+              title: "Real-Time Updates",
+              description: "Live match insights with instant prediction adjustments as games unfold and new data emerges",
             },
             {
               icon: BarChart3,
-              title: "Live Match Insights",
-              description: "Real-time player stats, team performance metrics, and trend analysis during matches",
+              title: "Comprehensive Analytics",
+              description: "Track prediction accuracy by league, sport, and time with detailed historical analysis",
             },
             {
               icon: Trophy,
-              title: "League Coverage",
-              description: "Major tournaments worldwide with historical data-driven predictions",
+              title: "Global League Coverage",
+              description: "Top divisions worldwide including Premier League, La Liga, Champions League, NFL, NBA, and more",
             },
             {
               icon: Zap,
               title: "Suggested Bets",
-              description: "Data-backed betting recommendations tailored to current odds",
+              description: "Data-backed betting recommendations with current odds and probability percentages",
             },
             {
               icon: TrendingUp,
               title: "Continuous Learning",
-              description: "Self-improving algorithms that adapt to new patterns and season trends",
+              description: "Self-improving algorithms that adapt to season trends, team form, and betting market dynamics",
             },
           ].map((feature, idx) => {
             const Icon = feature.icon;
