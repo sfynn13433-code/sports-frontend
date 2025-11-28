@@ -237,20 +237,29 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Leagues Section */}
+      {/* Leagues & Tournaments Section */}
       <section id="leagues" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-slate-900/30 rounded-3xl">
-        <h2 className="text-4xl sm:text-5xl font-bold text-white text-center mb-16">
-          Global League Coverage
+        <h2 className="text-4xl sm:text-5xl font-bold text-white text-center mb-4">
+          500+ Leagues & Tournaments
         </h2>
+        <p className="text-lg text-gray-400 text-center mb-16 max-w-3xl mx-auto">
+          From major international tournaments to regional competitions, SKCS AI covers top divisions across every continent
+        </p>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {[
-            { name: "Premier League", flag: "🇬🇧", matches: "1,847", accuracy: "87.3%" },
-            { name: "La Liga", flag: "🇪🇸", matches: "1,652", accuracy: "85.9%" },
-            { name: "Serie A", flag: "🇮🇹", matches: "1,523", accuracy: "84.2%" },
-            { name: "Bundesliga", flag: "🇩🇪", matches: "1,734", accuracy: "86.1%" },
-            { name: "Ligue 1", flag: "🇫🇷", matches: "1,456", accuracy: "83.5%" },
-            { name: "Champions League", flag: "🏆", matches: "821", accuracy: "88.7%" },
+            { name: "Premier League", emoji: "⚽", country: "England", matches: "1,847", accuracy: "87.3%" },
+            { name: "La Liga", emoji: "⚽", country: "Spain", matches: "1,652", accuracy: "85.9%" },
+            { name: "Serie A", emoji: "⚽", country: "Italy", matches: "1,523", accuracy: "84.2%" },
+            { name: "Bundesliga", emoji: "⚽", country: "Germany", matches: "1,734", accuracy: "86.1%" },
+            { name: "Ligue 1", emoji: "⚽", country: "France", matches: "1,456", accuracy: "83.5%" },
+            { name: "Champions League", emoji: "⚽", country: "Europe", matches: "821", accuracy: "88.7%" },
+            { name: "Six Nations", emoji: "🏈", country: "Europe", matches: "156", accuracy: "84.3%" },
+            { name: "NFL", emoji: "🏈", country: "USA", matches: "567", accuracy: "81.2%" },
+            { name: "Wimbledon", emoji: "🎾", country: "England", matches: "423", accuracy: "82.9%" },
+            { name: "Australian Open", emoji: "🎾", country: "Australia", matches: "512", accuracy: "81.5%" },
+            { name: "World Championship", emoji: "🎱", country: "England", matches: "189", accuracy: "85.6%" },
+            { name: "NHL", emoji: "🏒", country: "USA", matches: "678", accuracy: "80.4%" },
           ].map((league, idx) => (
             <div
               key={idx}
@@ -258,8 +267,9 @@ export default function Index() {
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-3xl mb-2">{league.flag}</p>
+                  <p className="text-3xl mb-2">{league.emoji}</p>
                   <h3 className="text-lg font-bold text-white">{league.name}</h3>
+                  <p className="text-xs text-gray-500">{league.country}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-bold text-gold-400">{league.accuracy}</p>
@@ -267,10 +277,19 @@ export default function Index() {
                 </div>
               </div>
               <p className="text-sm text-gray-400">
-                <span className="font-semibold text-gold-300">{league.matches}</span> predictions analyzed
+                <span className="font-semibold text-gold-300">{league.matches}</span> predictions
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center">
+          <Link
+            to="/predictions"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-bold transition"
+          >
+            Explore All Predictions
+          </Link>
         </div>
       </section>
 
