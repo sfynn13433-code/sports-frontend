@@ -1,59 +1,70 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Filter, Search, TrendingUp, Home, X } from "lucide-react";
-import { mockMatches, leaguesInfo } from "../lib/mock-predictions";
+import { sportsMatches, SPORTS, PREDICTION_TYPES } from "../lib/sports-predictions";
 
 export default function Predictions() {
+  const [selectedSport, setSelectedSport] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
+  const [selectedPredictionType, setSelectedPredictionType] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "upcoming" | "live" | "finished">("upcoming");
 
-  // Get unique countries
+  // Get unique countries from selected sport
   const countries = useMemo(() => {
-    const uniqueCountries = Array.from(new Set(leaguesInfo.map(league => league.country)))
-      .map(country => {
-        const flag = leaguesInfo.find(l => l.country === country)?.flag || "🌍";
-        return { name: country, flag };
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const matches = selectedSport
+      ? sportsMatches.filter((m) => m.sportCode === selectedSport)
+      : sportsMatches;
+    const uniqueCountries = Array.from(new Set(matches.map((m) => m.country))).sort();
     return uniqueCountries;
-  }, []);
+  }, [selectedSport]);
 
-  // Get leagues for selected country
-  const filteredLeagues = useMemo(() => {
-    if (!selectedCountry) return leaguesInfo;
-    return leaguesInfo.filter(league => league.country === selectedCountry);
-  }, [selectedCountry]);
+  // Get unique leagues from selected sport and country
+  const leagues = useMemo(() => {
+    let matches = sportsMatches;
+    if (selectedSport) matches = matches.filter((m) => m.sportCode === selectedSport);
+    if (selectedCountry) matches = matches.filter((m) => m.country === selectedCountry);
+    const uniqueLeagues = Array.from(new Set(matches.map((m) => m.league))).sort();
+    return uniqueLeagues;
+  }, [selectedSport, selectedCountry]);
 
-  // Reset league filter when country changes
+  // Get prediction types for selected sport
+  const availablePredictionTypes = useMemo(() => {
+    if (!selectedSport) return [];
+    return PREDICTION_TYPES[selectedSport] || [];
+  }, [selectedSport]);
+
+  const handleSportChange = (sport: string | null) => {
+    setSelectedSport(sport);
+    setSelectedCountry(null);
+    setSelectedLeague(null);
+    setSelectedPredictionType(null);
+  };
+
   const handleCountryChange = (country: string | null) => {
     setSelectedCountry(country);
     setSelectedLeague(null);
   };
 
+  // Filtered matches
   const filteredMatches = useMemo(() => {
-    return mockMatches.filter((match) => {
+    return sportsMatches.filter((match) => {
+      const sportMatch = selectedSport ? match.sportCode === selectedSport : true;
       const countryMatch = selectedCountry ? match.country === selectedCountry : true;
-      const leagueMatch = selectedLeague ? match.leagueCode === selectedLeague : true;
+      const leagueMatch = selectedLeague ? match.league === selectedLeague : true;
       const statusMatch = statusFilter === "all" ? true : match.status === statusFilter;
       const searchMatch =
         match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) ||
         match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
-      return countryMatch && leagueMatch && statusMatch && searchMatch;
+      return sportMatch && countryMatch && leagueMatch && statusMatch && searchMatch;
     });
-  }, [selectedCountry, selectedLeague, searchTerm, statusFilter]);
+  }, [selectedSport, selectedCountry, selectedLeague, statusFilter, searchTerm]);
 
-  const getPredictionColor = (probability: number): string => {
-    if (probability >= 60) return "text-green-400";
-    if (probability >= 45) return "text-yellow-400";
-    return "text-red-400";
-  };
-
-  const getConfidenceBg = (probability: number): string => {
-    if (probability >= 60) return "bg-green-500/20 border-green-500/40";
-    if (probability >= 45) return "bg-yellow-500/20 border-yellow-500/40";
-    return "bg-red-500/20 border-red-500/40";
+  const getPredictionColor = (confidence: number): string => {
+    if (confidence >= 80) return "text-green-400";
+    if (confidence >= 70) return "text-yellow-400";
+    return "text-orange-400";
   };
 
   const getStatusBadge = (status: string) => {
@@ -66,6 +77,11 @@ export default function Predictions() {
     if (status === "live") return "🔴 LIVE";
     if (status === "finished") return "✓ FINISHED";
     return "📅 UPCOMING";
+  };
+
+  const getSportColor = (sportCode: string) => {
+    const sport = SPORTS.find((s) => s.code === sportCode);
+    return sport?.color || "from-gray-600 to-gray-700";
   };
 
   return (
@@ -133,77 +149,160 @@ export default function Predictions() {
           ))}
         </div>
 
-        {/* Country Filter */}
+        {/* Sport Filter */}
         <div className="flex flex-col gap-3 mb-6">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-300 font-semibold">Country:</span>
-            {selectedCountry && (
+            <span className="text-sm text-gray-300 font-semibold">Sport:</span>
+            {selectedSport && (
               <button
-                onClick={() => handleCountryChange(null)}
+                onClick={() => handleSportChange(null)}
                 className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
               >
-                {selectedCountry}
+                {SPORTS.find((s) => s.code === selectedSport)?.emoji}{" "}
+                {SPORTS.find((s) => s.code === selectedSport)?.name}
                 <X className="w-3 h-3" />
               </button>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {countries.map((country) => (
+            {SPORTS.map((sport) => (
               <button
-                key={country.name}
-                onClick={() => handleCountryChange(selectedCountry === country.name ? null : country.name)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
-                  selectedCountry === country.name
+                key={sport.code}
+                onClick={() => handleSportChange(selectedSport === sport.code ? null : sport.code)}
+                className={`px-3 py-1.5 rounded-full text-sm font-semibold transition whitespace-nowrap flex items-center gap-1 ${
+                  selectedSport === sport.code
                     ? "bg-gold-600 text-slate-950"
                     : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
                 }`}
               >
-                {country.flag} {country.name}
+                {sport.emoji} {sport.name}
               </button>
             ))}
           </div>
         </div>
 
-        {/* League Filter */}
-        <div className="flex flex-col gap-3 mb-8">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-300 font-semibold">League:</span>
-            {selectedLeague && (
+        {/* Prediction Type Filter (only show if sport selected) */}
+        {selectedSport && availablePredictionTypes.length > 0 && (
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-300 font-semibold">Prediction Type:</span>
+              {selectedPredictionType && (
+                <button
+                  onClick={() => setSelectedPredictionType(null)}
+                  className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
+                >
+                  {availablePredictionTypes.find((p) => p.code === selectedPredictionType)?.name}
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => setSelectedLeague(null)}
-                className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
-              >
-                {leaguesInfo.find(l => l.code === selectedLeague)?.name}
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedLeague(null)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${
-                selectedLeague === null
-                  ? "bg-gold-600 text-slate-950"
-                  : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
-              }`}
-            >
-              All Leagues
-            </button>
-            {filteredLeagues.map((league) => (
-              <button
-                key={league.code}
-                onClick={() => setSelectedLeague(league.code)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
-                  selectedLeague === league.code
+                onClick={() => setSelectedPredictionType(null)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${
+                  selectedPredictionType === null
                     ? "bg-gold-600 text-slate-950"
                     : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
                 }`}
               >
-                {league.flag} {league.code}
+                All Types
               </button>
-            ))}
+              {availablePredictionTypes.map((predType) => (
+                <button
+                  key={predType.code}
+                  onClick={() =>
+                    setSelectedPredictionType(
+                      selectedPredictionType === predType.code ? null : predType.code
+                    )
+                  }
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
+                    selectedPredictionType === predType.code
+                      ? "bg-gold-600 text-slate-950"
+                      : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
+                  }`}
+                >
+                  {predType.code.toUpperCase()}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Country Filter */}
+        {selectedSport && (
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-300 font-semibold">Country:</span>
+              {selectedCountry && (
+                <button
+                  onClick={() => handleCountryChange(null)}
+                  className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
+                >
+                  {selectedCountry}
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {countries.map((country) => (
+                <button
+                  key={country}
+                  onClick={() => handleCountryChange(selectedCountry === country ? null : country)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
+                    selectedCountry === country
+                      ? "bg-gold-600 text-slate-950"
+                      : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
+                  }`}
+                >
+                  {country}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* League Filter */}
+        {selectedSport && leagues.length > 0 && (
+          <div className="flex flex-col gap-3 mb-8">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-300 font-semibold">League:</span>
+              {selectedLeague && (
+                <button
+                  onClick={() => setSelectedLeague(null)}
+                  className="flex items-center gap-1 px-2 py-1 bg-gold-600/20 border border-gold-500/40 rounded-full text-xs text-gold-300 hover:bg-gold-600/30 transition"
+                >
+                  {selectedLeague}
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedLeague(null)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${
+                  selectedLeague === null
+                    ? "bg-gold-600 text-slate-950"
+                    : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
+                }`}
+              >
+                All Leagues
+              </button>
+              {leagues.map((league) => (
+                <button
+                  key={league}
+                  onClick={() => setSelectedLeague(selectedLeague === league ? null : league)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition whitespace-nowrap ${
+                    selectedLeague === league
+                      ? "bg-gold-600 text-slate-950"
+                      : "bg-slate-900/50 border border-gold-600/20 text-gray-300 hover:border-gold-500/40"
+                  }`}
+                >
+                  {league}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Matches Grid */}
         <div className="space-y-4">
@@ -217,111 +316,133 @@ export default function Predictions() {
                 key={match.id}
                 className="p-6 rounded-xl border border-gold-600/20 bg-slate-900/50 hover:bg-slate-900/70 hover:border-gold-500/40 transition"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-                  {/* Match Info */}
-                  <div className="sm:col-span-3">
-                    <div className="flex items-center justify-between sm:flex-col sm:items-start gap-2">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+                  {/* Match Header */}
+                  <div className="lg:col-span-2">
+                    <div className="flex items-center justify-between lg:flex-col lg:items-start gap-2 mb-3">
                       <span className={`text-xs font-bold px-3 py-1 rounded-full border ${getStatusBadge(match.status)}`}>
                         {getStatusText(match.status)}
                       </span>
-                      <div className="text-right sm:text-left">
-                        <p className="text-xs text-gold-400 font-semibold">{match.league}</p>
-                        <p className="text-xs text-gray-500">{match.division}</p>
-                      </div>
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full bg-gradient-to-r ${getSportColor(match.sportCode)} text-white`}>
+                        {SPORTS.find((s) => s.code === match.sportCode)?.emoji} {match.sport}
+                      </span>
                     </div>
-                    <div className="flex items-center justify-between sm:flex-col sm:items-start gap-2 mt-2">
-                      <p className="text-xs text-gray-500">
-                        {new Date(match.date).toLocaleDateString()} at {match.time}
-                      </p>
-                      <p className="text-xs text-gray-400 font-semibold">{match.country}</p>
-                    </div>
+                    <p className="text-xs text-gold-400 font-semibold">{match.league}</p>
+                    <p className="text-xs text-gray-500">{match.country}</p>
+                    <p className="text-xs text-gray-600 mt-2">
+                      {new Date(match.date).toLocaleDateString()} at {match.time}
+                    </p>
                   </div>
 
                   {/* Teams */}
-                  <div className="sm:col-span-3">
-                    <div className="flex items-center justify-between">
+                  <div className="lg:col-span-2">
+                    <div className="flex items-center justify-between gap-2">
                       <div className="text-center flex-1">
                         <p className="text-2xl mb-1">{match.homeLogoUrl}</p>
                         <p className="text-sm font-semibold text-white truncate">{match.homeTeam}</p>
                         {match.liveScore && (
-                          <p className="text-xl font-bold text-gold-400">{match.liveScore.home}</p>
+                          <p className="text-xl font-bold text-gold-400 mt-1">{match.liveScore.home}</p>
                         )}
                       </div>
-                      <p className="text-gray-500 font-semibold mx-2">VS</p>
+                      <p className="text-gray-500 font-semibold">VS</p>
                       <div className="text-center flex-1">
                         <p className="text-2xl mb-1">{match.awayLogoUrl}</p>
                         <p className="text-sm font-semibold text-white truncate">{match.awayTeam}</p>
                         {match.liveScore && (
-                          <p className="text-xl font-bold text-gold-400">{match.liveScore.away}</p>
+                          <p className="text-xl font-bold text-gold-400 mt-1">{match.liveScore.away}</p>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  {/* Prediction Bars */}
-                  <div className="sm:col-span-3 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs text-gray-400">Home Win</p>
-                      <p className={`font-bold ${getPredictionColor(match.prediction.homeWin)}`}>
-                        {match.prediction.homeWin.toFixed(1)}%
-                      </p>
-                    </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-gold-500 to-gold-600"
-                        style={{ width: `${match.prediction.homeWin}%` }}
-                      ></div>
-                    </div>
+                  {/* Predictions */}
+                  <div className="lg:col-span-8 space-y-3">
+                    {match.predictions
+                      .filter(
+                        (pred) =>
+                          !selectedPredictionType || pred.type === selectedPredictionType
+                      )
+                      .slice(0, 3) // Show max 3 prediction types
+                      .map((pred, idx) => {
+                        const predType = availablePredictionTypes.find((pt) => pt.code === pred.type);
+                        return (
+                          <div key={idx} className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xs font-semibold text-gray-300">
+                                {predType?.name || pred.type.toUpperCase()}
+                              </p>
+                              <div className="flex items-center gap-2">
+                                <span className={`text-xs font-bold ${getPredictionColor(pred.confidence)}`}>
+                                  {pred.confidence}% Confidence
+                                </span>
+                                <span className="text-xs font-semibold text-gold-400 bg-gold-600/10 px-2 py-1 rounded">
+                                  {pred.suggestedBet}
+                                </span>
+                              </div>
+                            </div>
 
-                    <div className="flex items-center justify-between pt-2">
-                      <p className="text-xs text-gray-400">Draw</p>
-                      <p className="font-bold text-gray-300">{match.prediction.draw.toFixed(1)}%</p>
-                    </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-slate-600"
-                        style={{ width: `${match.prediction.draw}%` }}
-                      ></div>
-                    </div>
+                            {/* Probability Bars */}
+                            {pred.homeWin !== undefined && pred.awayWin !== undefined && (
+                              <div className="space-y-1.5">
+                                {pred.homeWin > 0 && (
+                                  <>
+                                    <div className="flex items-center justify-between">
+                                      <p className="text-xs text-gray-400">
+                                        {pred.draw !== undefined ? "Home" : match.homeTeam}
+                                      </p>
+                                      <p className="text-xs font-bold text-gold-400">
+                                        {pred.homeWin.toFixed(1)}%
+                                      </p>
+                                    </div>
+                                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                      <div
+                                        className="h-full bg-gradient-to-r from-gold-500 to-gold-600"
+                                        style={{ width: `${Math.min(pred.homeWin, 100)}%` }}
+                                      ></div>
+                                    </div>
+                                  </>
+                                )}
 
-                    <div className="flex items-center justify-between pt-2">
-                      <p className="text-xs text-gray-400">Away Win</p>
-                      <p className={`font-bold ${getPredictionColor(match.prediction.awayWin)}`}>
-                        {match.prediction.awayWin.toFixed(1)}%
-                      </p>
-                    </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-blue-500"
-                        style={{ width: `${match.prediction.awayWin}%` }}
-                      ></div>
-                    </div>
-                  </div>
+                                {pred.draw !== undefined && pred.draw > 0 && (
+                                  <>
+                                    <div className="flex items-center justify-between">
+                                      <p className="text-xs text-gray-400">Draw</p>
+                                      <p className="text-xs font-bold text-gray-300">
+                                        {pred.draw.toFixed(1)}%
+                                      </p>
+                                    </div>
+                                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                      <div
+                                        className="h-full bg-slate-600"
+                                        style={{ width: `${Math.min(pred.draw, 100)}%` }}
+                                      ></div>
+                                    </div>
+                                  </>
+                                )}
 
-                  {/* Suggested Bet */}
-                  <div className="sm:col-span-3">
-                    <div className={`p-4 rounded-lg border ${getConfidenceBg(match.prediction.homeWin)}`}>
-                      <p className="text-xs text-gray-400 mb-2">AI Recommendation</p>
-                      <p className="text-lg font-bold text-gold-300 mb-3">
-                        {match.prediction.suggestedBet}
-                      </p>
-                      {match.odds && (
-                        <div className="space-y-1 text-xs">
-                          <div className="flex justify-between">
-                            <span className="text-gray-300">Home</span>
-                            <span className="text-gold-400 font-semibold">{match.odds.home.toFixed(2)}</span>
+                                {pred.awayWin > 0 && (
+                                  <>
+                                    <div className="flex items-center justify-between">
+                                      <p className="text-xs text-gray-400">
+                                        {pred.draw !== undefined ? "Away" : match.awayTeam}
+                                      </p>
+                                      <p className="text-xs font-bold text-blue-400">
+                                        {pred.awayWin.toFixed(1)}%
+                                      </p>
+                                    </div>
+                                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                      <div
+                                        className="h-full bg-blue-500"
+                                        style={{ width: `${Math.min(pred.awayWin, 100)}%` }}
+                                      ></div>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            )}
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-300">Draw</span>
-                            <span className="text-gold-400 font-semibold">{match.odds.draw.toFixed(2)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-300">Away</span>
-                            <span className="text-gold-400 font-semibold">{match.odds.away.toFixed(2)}</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -329,16 +450,19 @@ export default function Predictions() {
           )}
         </div>
 
-        {/* Bottom CTA */}
+        {/* Premium CTA */}
         <div className="mt-16 text-center p-8 rounded-xl border border-gold-600/20 bg-slate-900/50">
           <TrendingUp className="w-12 h-12 text-gold-400 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold text-white mb-2">Premium Predictions Unlock More</h3>
+          <h3 className="text-2xl font-bold text-white mb-2">Unlock Advanced Predictions</h3>
           <p className="text-gray-400 mb-6">
-            Upgrade to access advanced analytics, detailed player stats, and exclusive betting strategies
+            Upgrade to access detailed player stats, historical accuracy rates, and exclusive betting strategies
           </p>
-          <button className="px-8 py-3 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-bold transition transform hover:scale-105">
-            Upgrade to Premium
-          </button>
+          <Link
+            to="/premium"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-bold transition transform hover:scale-105"
+          >
+            View Premium Plans
+          </Link>
         </div>
       </div>
     </div>
