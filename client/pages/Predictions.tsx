@@ -106,11 +106,22 @@ export default function Predictions() {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Responsible Gambling Banner */}
+        <div className="mb-8 p-4 rounded-lg border border-amber-500/30 bg-amber-950/20 flex gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-semibold text-amber-300 mb-1">Responsible Gambling</p>
+            <p className="text-xs text-amber-200">
+              Predictions are for entertainment only. Never bet more than you can afford to lose. For help with gambling problems, contact the National Problem Gambling Helpline: 1-800-GAMBLER (1-800-426-2537).
+            </p>
+          </div>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">Live Predictions</h1>
           <p className="text-gray-400">
-            AI-powered match forecasts with real-time confidence scores and betting insights
+            AI-powered match forecasts with real-time confidence scores and betting insights across 6 major sports
           </p>
         </div>
 
