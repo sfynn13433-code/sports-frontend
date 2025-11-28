@@ -338,7 +338,68 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Pricing/CTA Section */}
+      {/* Pricing Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-lg text-gray-400">
+            Choose the plan that fits your sports prediction needs. All plans include access to all sports and prediction types.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
+          {[
+            { name: "5 Days", price: "$2.40", features: ["All sports", "Basic predictions", "Email alerts"] },
+            { name: "Monthly", price: "$10", features: ["All features", "Accuracy analytics", "Dashboard", "Priority support"], highlighted: true },
+            { name: "Annual", price: "$105", features: ["All Monthly +", "Full history", "Advanced analytics", "24/7 support"], highlight: true },
+          ].map((plan, idx) => (
+            <div
+              key={idx}
+              className={`p-8 rounded-2xl border transition transform hover:scale-105 ${
+                plan.highlighted
+                  ? "border-gold-500/50 bg-gradient-to-br from-gold-950/40 to-slate-950 ring-2 ring-gold-500/30 shadow-xl shadow-gold-500/20"
+                  : "border-gold-600/20 bg-slate-900/50"
+              }`}
+            >
+              {plan.highlighted && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="px-3 py-1 bg-gold-500 text-slate-950 text-xs font-bold rounded-full">BEST VALUE</span>
+                </div>
+              )}
+              <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+              <p className="text-3xl font-bold text-gold-400 mb-6">{plan.price}</p>
+              <ul className="space-y-2 mb-8">
+                {plan.features.map((feature, fidx) => (
+                  <li key={fidx} className="flex items-center gap-2 text-sm text-gray-300">
+                    <CheckCircle className="w-4 h-4 text-gold-400" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <button className={`w-full py-3 rounded-lg font-bold transition ${
+                plan.highlighted
+                  ? "bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950"
+                  : "border border-gold-500/40 hover:border-gold-500/70 text-gold-300"
+              }`}>
+                Choose Plan
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Link
+            to="/premium"
+            className="inline-block px-8 py-3 border-2 border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-200 rounded-lg font-bold transition"
+          >
+            View All Plans & Features
+          </Link>
+        </div>
+      </section>
+
+      {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gold-600 to-gold-700 p-12 sm:p-16">
           <div className="absolute inset-0 opacity-10">
@@ -346,22 +407,25 @@ export default function Index() {
           </div>
           <div className="relative text-center">
             <h2 className="text-4xl sm:text-5xl font-bold text-slate-950 mb-4">
-              Start Making Smarter Predictions
+              Start Making Smarter Predictions Today
             </h2>
             <p className="text-slate-800 text-lg mb-8 max-w-2xl mx-auto font-medium">
-              Free access to daily predictions. Unlock premium insights and advanced analytics with a subscription.
+              Get instant access to AI-powered predictions across 6 major sports with real-time confidence scores and betting insights.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/predictions"
                 className="px-8 py-4 bg-slate-950 hover:bg-slate-900 text-gold-400 font-bold rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2"
               >
-                View Free Predictions
+                Explore Predictions
                 <ChevronRight className="w-5 h-5" />
               </Link>
-              <button className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-lg transition backdrop-blur-sm">
-                Learn About Premium
-              </button>
+              <Link
+                to="/premium"
+                className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-bold rounded-lg transition backdrop-blur-sm"
+              >
+                View Premium Plans
+              </Link>
             </div>
           </div>
         </div>
