@@ -431,6 +431,27 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Responsible Gambling Disclaimer */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="p-8 rounded-xl border border-amber-500/30 bg-amber-950/20">
+          <div className="flex gap-4">
+            <AlertCircle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="text-lg font-bold text-amber-300 mb-2">Responsible Gambling</h3>
+              <p className="text-sm text-amber-100 mb-3">
+                SKCS AI provides sports predictions and analysis for entertainment and informational purposes only. Sports predictions are not guaranteed and involve risk. Never bet more than you can afford to lose.
+              </p>
+              <p className="text-sm text-amber-100 mb-3">
+                If you or someone you know has a gambling problem, please seek help immediately. In the US, you can contact the National Council on Problem Gambling at 1-800-GAMBLER (1-800-426-2537).
+              </p>
+              <p className="text-xs text-amber-200">
+                We strongly encourage you to gamble responsibly. Set limits, know the risks, and seek help if needed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-gold-700/20 bg-slate-950/50 backdrop-blur-sm mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -443,7 +464,10 @@ export default function Index() {
                 <span className="font-bold text-white">SKCS AI</span>
               </div>
               <p className="text-gray-400 text-sm">
-                Enterprise-grade AI sports predictions for smarter decisions
+                Smart sports predictions powered by AI
+              </p>
+              <p className="text-xs text-gray-500 mt-2">
+                Enterprise Number: 2025/918368/07
               </p>
             </div>
             <div>
@@ -455,13 +479,13 @@ export default function Index() {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-400 transition">
-                    Pricing
-                  </a>
+                  <Link to="/premium" className="hover:text-gold-400 transition">
+                    Premium Plans
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="hover:text-gold-400 transition">
-                    API
+                    API Docs
                   </a>
                 </li>
               </ul>
@@ -471,7 +495,7 @@ export default function Index() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
                   <a href="#" className="hover:text-gold-400 transition">
-                    About
+                    About Us
                   </a>
                 </li>
                 <li>
@@ -481,13 +505,13 @@ export default function Index() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-gold-400 transition">
-                    Contact
+                    Contact Support
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <h4 className="font-semibold text-white mb-4">Legal & Safety</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
                   <a href="#" className="hover:text-gold-400 transition">
@@ -501,15 +525,18 @@ export default function Index() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-gold-400 transition">
-                    Responsible Betting
+                    Responsible Gambling
                   </a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gold-700/20 pt-8">
-            <p className="text-center text-sm text-gray-500">
-              © 2025 SKCS AI Sports Prediction PYT (Ltd). Enterprise Number: 2025/918368/07. All rights reserved.
+            <p className="text-center text-xs text-gray-500 mb-4">
+              © 2025 SKCS AI Sports Prediction PYT (Ltd). All rights reserved. Enterprise Number: 2025/918368/07
+            </p>
+            <p className="text-center text-xs text-gray-600">
+              Predictions are for entertainment purposes. Always gamble responsibly. 18+ only.
             </p>
           </div>
         </div>
