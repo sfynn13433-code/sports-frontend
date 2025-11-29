@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NotificationCenter } from "./components/NotificationCenter";
 import Index from "./pages/Index";
 import Predictions from "./pages/Predictions";
+import LivePredictions from "./pages/LivePredictions";
 import Leagues from "./pages/Leagues";
 import Premium from "./pages/Premium";
 import NotFound from "./pages/NotFound";
