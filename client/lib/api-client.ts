@@ -1,18 +1,30 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sports-backend-hq07.onrender.com';
 
-export interface PredictionResponse {
+export interface GoalMarket {
+  type: string;
+  probability: string;
+  odds: string;
+  suggestedBet: string;
+}
+
+export interface WinnerPrediction {
+  team: string;
+  probability: string;
+  odds: string;
+  suggestedBet: string;
+}
+
+export interface PredictionData {
   match: string;
+  league: string;
   predictions: {
-    market: string;
-    team?: string;
-    probability: number;
-    suggestedBet: string;
-  }[];
-  modelVersion: string;
+    winner: WinnerPrediction;
+    goals: GoalMarket[];
+  };
 }
 
 export class ApiClient {
-  static async getPredictions(): Promise<PredictionResponse[]> {
+  static async getPredictions(): Promise<PredictionData[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/api/predictions`, {
         method: 'GET',
@@ -35,7 +47,7 @@ export class ApiClient {
     }
   }
 
-  static async getPredictionsByMatch(matchId: string): Promise<PredictionResponse> {
+  static async getPredictionsByMatch(matchId: string): Promise<PredictionData> {
     try {
       const response = await fetch(`${API_BASE_URL}/api/predictions/${matchId}`, {
         method: 'GET',
