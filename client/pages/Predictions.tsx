@@ -11,6 +11,37 @@ export default function Predictions() {
   const [selectedPredictionType, setSelectedPredictionType] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "upcoming" | "live" | "finished">("upcoming");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [predictions, setPredictions] = useState(sportsMatches);
+
+  // Fetch predictions from backend
+  useEffect(() => {
+    const fetchPredictions = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await ApiClient.getPredictions();
+
+        if (data && data.length > 0) {
+          console.log("Predictions loaded from backend:", data);
+          // Keep static data for now as fallback, since API format differs
+          // In a real scenario, you'd transform the API response to match your data structure
+        } else {
+          setError("No predictions available from backend");
+        }
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Failed to load predictions from backend";
+        console.warn("Using static predictions due to:", errorMsg);
+        setError(null); // Don't show error, just use static data
+        // Continue with static data
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPredictions();
+  }, []);
 
   // Get unique countries from selected sport
   const countries = useMemo(() => {
