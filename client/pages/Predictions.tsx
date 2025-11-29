@@ -157,6 +157,28 @@ export default function Predictions() {
           </p>
         </div>
 
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <Loader className="w-8 h-8 text-gold-400 animate-spin mx-auto mb-4" />
+              <p className="text-gray-400">Loading predictions...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !isLoading && (
+          <div className="mb-8 p-4 rounded-lg border border-red-500/30 bg-red-950/20 flex gap-3">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-red-300 mb-1">Error Loading Predictions</p>
+              <p className="text-xs text-red-200">{error}</p>
+              <p className="text-xs text-red-300 mt-2">Using cached data. Please refresh to try again.</p>
+            </div>
+          </div>
+        )}
+
         {/* Search Bar */}
         <div className="mb-8">
           <div className="relative">
