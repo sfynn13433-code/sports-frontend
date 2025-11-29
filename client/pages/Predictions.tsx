@@ -46,20 +46,20 @@ export default function Predictions() {
   // Get unique countries from selected sport
   const countries = useMemo(() => {
     const matches = selectedSport
-      ? sportsMatches.filter((m) => m.sportCode === selectedSport)
-      : sportsMatches;
+      ? predictions.filter((m) => m.sportCode === selectedSport)
+      : predictions;
     const uniqueCountries = Array.from(new Set(matches.map((m) => m.country))).sort();
     return uniqueCountries;
-  }, [selectedSport]);
+  }, [selectedSport, predictions]);
 
   // Get unique leagues from selected sport and country
   const leagues = useMemo(() => {
-    let matches = sportsMatches;
+    let matches = predictions;
     if (selectedSport) matches = matches.filter((m) => m.sportCode === selectedSport);
     if (selectedCountry) matches = matches.filter((m) => m.country === selectedCountry);
     const uniqueLeagues = Array.from(new Set(matches.map((m) => m.league))).sort();
     return uniqueLeagues;
-  }, [selectedSport, selectedCountry]);
+  }, [selectedSport, selectedCountry, predictions]);
 
   // Get prediction types for selected sport
   const availablePredictionTypes = useMemo(() => {
