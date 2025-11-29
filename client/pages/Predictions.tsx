@@ -81,7 +81,7 @@ export default function Predictions() {
 
   // Filtered matches
   const filteredMatches = useMemo(() => {
-    return sportsMatches.filter((match) => {
+    return predictions.filter((match) => {
       const sportMatch = selectedSport ? match.sportCode === selectedSport : true;
       const countryMatch = selectedCountry ? match.country === selectedCountry : true;
       const leagueMatch = selectedLeague ? match.league === selectedLeague : true;
@@ -91,7 +91,7 @@ export default function Predictions() {
         match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
       return sportMatch && countryMatch && leagueMatch && statusMatch && searchMatch;
     });
-  }, [selectedSport, selectedCountry, selectedLeague, statusFilter, searchTerm]);
+  }, [predictions, selectedSport, selectedCountry, selectedLeague, statusFilter, searchTerm]);
 
   const getPredictionColor = (confidence: number): string => {
     if (confidence >= 80) return "text-green-400";
