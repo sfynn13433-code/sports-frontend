@@ -107,12 +107,23 @@ export default function LivePredictions() {
           <div className="p-6 rounded-lg border border-red-500/30 bg-red-950/20">
             <div className="flex gap-3">
               <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
+              <div className="flex-1">
                 <h3 className="text-lg font-semibold text-red-300 mb-2">Unable to Load Predictions</h3>
-                <p className="text-red-200 text-sm mb-4">{error}</p>
-                <p className="text-red-300 text-xs">
-                  The backend API may still be initializing. Please try refreshing in a moment.
-                </p>
+                <p className="text-red-200 text-sm mb-3">{error}</p>
+                <div className="bg-red-950/40 rounded p-3 mb-4 text-xs text-red-300 space-y-1">
+                  <p><strong>Troubleshooting:</strong></p>
+                  <ul className="list-disc list-inside space-y-1 ml-1">
+                    <li>Ensure the backend server is running</li>
+                    <li>Verify CORS is enabled on the backend</li>
+                    <li>Check that the API endpoint exists: <code className="bg-black/30 px-1 rounded">https://sports-backend-hq07.onrender.com/api/predictions</code></li>
+                  </ul>
+                </div>
+                <button
+                  onClick={fetchPredictions}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm font-semibold transition"
+                >
+                  Try Again
+                </button>
               </div>
             </div>
           </div>
