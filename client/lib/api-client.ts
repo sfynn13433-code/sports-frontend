@@ -1,26 +1,13 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sports-backend-hq07.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://predictions-backend-1.onrender.com';
 
-export interface GoalMarket {
-  type: string;
-  probability: string;
-  odds: string;
-  suggestedBet: string;
+export interface Prediction {
+  id: number;
+  title: string;
+  confidence: number;
 }
 
-export interface WinnerPrediction {
-  team: string;
-  probability: string;
-  odds: string;
-  suggestedBet: string;
-}
-
-export interface PredictionData {
-  match: string;
-  league: string;
-  predictions: {
-    winner: WinnerPrediction;
-    goals: GoalMarket[];
-  };
+export interface PredictionResponse {
+  predictions: Prediction[];
 }
 
 export class ApiClient {
