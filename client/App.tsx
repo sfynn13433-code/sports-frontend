@@ -32,6 +32,7 @@ export default function App() {
             <Route path="/" element={<Index />} />
             <Route path="/predictions" element={<LivePredictions />} />
             <Route path="/legacy-predictions" element={<Predictions />} />
+            <Route path="/team-predictor" element={<TeamPrediction />} />
             <Route path="/leagues" element={<Leagues />} />
             <Route path="/premium" element={<Premium />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
