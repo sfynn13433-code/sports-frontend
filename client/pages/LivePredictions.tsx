@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Home, Loader, AlertCircle, RefreshCw } from "lucide-react";
-import { ApiClient, PredictionData } from "../lib/api-client";
-import PredictionCard from "../components/PredictionCard";
+import { Home, Loader, AlertCircle, RefreshCw, TrendingUp } from "lucide-react";
+import { ApiClient, Prediction } from "../lib/api-client";
 
 export default function LivePredictions() {
-  const [predictions, setPredictions] = useState<PredictionData[]>([]);
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
