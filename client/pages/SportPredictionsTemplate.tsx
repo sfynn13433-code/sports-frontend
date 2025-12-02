@@ -257,37 +257,58 @@ export function SportPredictionsTemplate({
         {/* Predictions List */}
         {!isLoading && predictions.length > 0 && (
           <div className="space-y-3">
-            {predictions.map((prediction) => {
-              const confidencePercent = Math.round(prediction.confidence * 100);
+            {predictions.map((prediction, idx) => {
+              // Handle different confidence field names
+              const confidenceVal =
+                typeof prediction.confidence === "number"
+                  ? prediction.confidence
+                  : typeof prediction.winProbability === "number"
+                  ? prediction.winProbability
+                  : 0.65;
+
+              // Normalize confidence to 0-1 range if needed
+              const normalizedConfidence =
+                confidenceVal > 1 ? confidenceVal / 100 : confidenceVal;
+              const confidencePercent = Math.round(normalizedConfidence * 100);
+
               const getConfidenceColor = (conf: number): string => {
-                const percent = Math.round(conf * 100);
-                if (percent >= 80)
+                if (conf >= 80)
                   return "bg-green-500/20 border-green-500/50 text-green-400";
-                if (percent >= 70)
+                if (conf >= 70)
                   return "bg-yellow-500/20 border-yellow-500/50 text-yellow-400";
-                if (percent >= 60)
+                if (conf >= 60)
                   return "bg-orange-500/20 border-orange-500/50 text-orange-400";
                 return "bg-red-500/20 border-red-500/50 text-red-400";
               };
 
               const getBarColor = (conf: number): string => {
-                const percent = Math.round(conf * 100);
-                if (percent >= 80) return "bg-green-500";
-                if (percent >= 70) return "bg-yellow-500";
-                if (percent >= 60) return "bg-orange-500";
+                if (conf >= 80) return "bg-green-500";
+                if (conf >= 70) return "bg-yellow-500";
+                if (conf >= 60) return "bg-orange-500";
                 return "bg-red-500";
               };
 
+              // Get prediction title from available fields
+              const predictionTitle =
+                prediction.prediction ||
+                prediction.matchup ||
+                `${prediction.homeTeam || "Team A"} vs ${prediction.awayTeam || "Team B"}`;
+
               return (
                 <div
-                  key={prediction.id}
-                  className="p-5 rounded-lg border border-gold-600/20 bg-slate-900/50 hover:bg-slate-900/70 hover:border-gold-500/40 transition"
+                  key={prediction.id || idx}
+                  className="p-5 rounded-lg border border-gold-600/20 bg-slate-900/50 hover:bg-slate-900/70 hover:border-gold-500/40 transition animate-in fade-in duration-300"
                 >
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-white">
-                        {prediction.title}
+                        {predictionTitle}
                       </h3>
+                      {prediction.textCommentary && (
+                        <p className="mt-2 text-sm text-gray-300 italic">
+                          "{prediction.textCommentary}"
+                        </p>
+                      )}
                       <div className="mt-2 text-sm text-gray-400 space-y-1">
                         <div>
                           📅{" "}
@@ -298,7 +319,7 @@ export function SportPredictionsTemplate({
                       </div>
                     </div>
                     <div
-                      className={`px-3 py-1.5 rounded-full border font-bold text-sm whitespace-nowrap ${getConfidenceColor(prediction.confidence)}`}
+                      className={`px-3 py-1.5 rounded-full border font-bold text-sm whitespace-nowrap ${getConfidenceColor(confidencePercent)}`}
                     >
                       {confidencePercent}%
                     </div>
@@ -306,7 +327,7 @@ export function SportPredictionsTemplate({
 
                   <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full ${getBarColor(prediction.confidence)} transition-all duration-300`}
+                      className={`h-full ${getBarColor(confidencePercent)} transition-all duration-300`}
                       style={{ width: `${confidencePercent}%` }}
                     ></div>
                   </div>
