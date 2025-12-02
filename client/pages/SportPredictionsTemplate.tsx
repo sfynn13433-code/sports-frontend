@@ -206,6 +206,26 @@ export function SportPredictionsTemplate({
           </div>
         )}
 
+        {/* AI Commentary Placeholder */}
+        {!isLoading && predictions.length > 0 && (
+          <div className="mb-8 p-6 rounded-lg border border-gold-500/30 bg-gradient-to-br from-gold-950/40 to-slate-950 animate-in fade-in duration-500 shadow-lg shadow-gold-500/10">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="text-2xl">✨</div>
+              <h3 className="text-lg font-semibold text-gold-300">
+                AI Commentary & Insights
+              </h3>
+            </div>
+            <p className="text-gray-300 leading-relaxed">
+              <span className="font-semibold text-gold-200">We suggest this team could perform strongly based on recent form.</span> Our AI analysis identifies key patterns in team dynamics, player performance, and historical matchups. <span className="font-semibold text-gold-200">Outcomes are not guaranteed</span> — sports predictions involve inherent uncertainty. Use these insights as one data point among many in your decision-making process.
+            </p>
+            <div className="mt-4 pt-4 border-t border-gold-500/20">
+              <p className="text-sm text-gray-400 italic">
+                🤖 <span className="font-medium text-gold-300">Coming soon:</span> Expanded AI commentary with detailed match analysis, player comparison charts, and confidence breakdowns.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Predictions List */}
         {!isLoading && predictions.length > 0 && (
           <div className="space-y-3">
