@@ -27,6 +27,12 @@ export default function Index() {
               How It Works
             </a>
             <Link
+              to="/sports"
+              className="px-5 py-2 border border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-400 rounded-lg font-semibold transition"
+            >
+              Select Sport
+            </Link>
+            <Link
               to="/predictions"
               className="px-5 py-2 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-semibold transition"
             >
@@ -59,15 +65,18 @@ export default function Index() {
 
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
               <Link
-                to="/predictions"
+                to="/sports"
                 className="px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950 rounded-lg font-bold flex items-center justify-center gap-2 transition transform hover:scale-105"
               >
-                Explore Predictions
+                Choose Your Sport
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className="px-8 py-4 border-2 border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-200 rounded-lg font-semibold transition">
-                Learn More
-              </button>
+              <Link
+                to="/predictions"
+                className="px-8 py-4 border-2 border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-200 rounded-lg font-semibold transition"
+              >
+                View All Predictions
+              </Link>
             </div>
 
             <div className="pt-8 flex items-center gap-8 text-gray-400">
