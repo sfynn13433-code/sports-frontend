@@ -371,6 +371,13 @@ export default function Premium() {
             </Link>
           </div>
         </div>
+
+        {/* Responsible Use Notice Footer */}
+        <div className="mt-16 pt-8 border-t border-gold-700/20 text-center">
+          <p className="text-sm text-gray-500 italic">
+            Predictions are suggestions only. Outcomes are not guaranteed. Play responsibly.
+          </p>
+        </div>
       </div>
     </div>
   );
