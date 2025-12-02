@@ -6,16 +6,35 @@ export default function Premium() {
   const plans = [
     {
       id: "5day",
-      name: "5 Days Trial",
-      price: "$2.40",
-      period: "5 days",
+      name: "5 Days + 1 Extra",
+      price: "$2.80",
+      period: "6 days total",
+      description: "Enjoy 6 days of predictions access for only $2.80.",
       color: "border-gray-600/30 bg-slate-900/30",
       badge: null,
       features: [
         "Access to all sports predictions",
         "Basic prediction accuracy stats",
         "Email match notifications",
-        "Limited to 5 days",
+        "6 days of access",
+      ],
+      recommended: false,
+    },
+    {
+      id: "14day",
+      name: "14 Days + 3 Extra",
+      price: "$6.60",
+      period: "17 days total",
+      description: "Get 17 days of predictions access for $6.60.",
+      color: "border-cyan-500/30 bg-cyan-950/20",
+      badge: "BEST SHORT-TERM",
+      features: [
+        "Access to all sports predictions",
+        "Real-time confidence scores",
+        "Advanced filtering by prediction type",
+        "Email & push notifications",
+        "Full match history",
+        "17 days of access",
       ],
       recommended: false,
     },
@@ -123,6 +142,7 @@ export default function Premium() {
 
   const planFeatures: Record<string, boolean[]> = {
     "5day": [true, false, false, true, false, false, false, false, false, false],
+    "14day": [true, false, true, true, true, true, false, true, false, false],
     "7day": [true, false, true, true, true, true, false, true, false, false],
     "30day": [true, true, true, true, true, true, true, true, true, true],
     "6month": [true, true, true, true, true, true, true, true, true, true],
