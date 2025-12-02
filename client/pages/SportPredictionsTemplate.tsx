@@ -8,7 +8,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ApiClient, Prediction } from "../lib/api-client";
+import { ApiClient, SportPredictionsResponse, SportPrediction } from "../lib/api-client";
 
 interface SportPredictionsProps {
   sportName: string;
@@ -20,23 +20,34 @@ export function SportPredictionsTemplate({
   sportIcon,
 }: SportPredictionsProps) {
   const navigate = useNavigate();
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [predictions, setPredictions] = useState<SportPrediction[]>([]);
+  const [expertConclusion, setExpertConclusion] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Normalize sport name to API format (lowercase with hyphens)
+  const sportIdParam = sportName
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/\//g, "-");
 
   const fetchPredictions = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await ApiClient.getPredictions();
-      setPredictions(data);
+      const response = await ApiClient.getPredictionsBySport(sportIdParam);
+      setPredictions(response.data || []);
+      setExpertConclusion(
+        response.expertConclusion || "Predictions will be available shortly."
+      );
       setLastUpdated(new Date());
     } catch (err) {
       const errorMsg =
         err instanceof Error ? err.message : "Failed to load predictions";
       setError(errorMsg);
       setPredictions([]);
+      setExpertConclusion("");
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +58,7 @@ export function SportPredictionsTemplate({
 
     const interval = setInterval(fetchPredictions, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [sportIdParam]);
 
   const formatMatchDate = (date?: Date): string => {
     if (!date) {
