@@ -423,10 +423,10 @@ export default function Index() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/predictions"
+                to="/sports"
                 className="px-8 py-4 bg-slate-950 hover:bg-slate-900 text-gold-400 font-bold rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2"
               >
-                Explore Predictions
+                Select Your Sport
                 <ChevronRight className="w-5 h-5" />
               </Link>
               <Link
