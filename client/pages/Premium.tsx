@@ -150,6 +150,11 @@ export default function Premium() {
     lifetime: [true, true, true, true, true, true, true, true, true, true],
   };
 
+  const handleCheckout = (planId: string) => {
+    // Route to checkout endpoint
+    window.location.href = `/create-checkout-session?plan=${planId}`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
       {/* Navigation */}
@@ -198,7 +203,7 @@ export default function Premium() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`relative p-8 rounded-2xl border transition transform hover:scale-105 ${
+              className={`relative p-8 rounded-2xl border transition transform hover:scale-105 animate-in fade-in duration-500 ${
                 plan.recommended
                   ? `${plan.color} ring-2 ring-gold-500/50 shadow-xl shadow-gold-500/20`
                   : plan.color
@@ -216,6 +221,9 @@ export default function Premium() {
                 <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
                 <p className="text-4xl font-bold text-gold-400 mb-1">{plan.price}</p>
                 <p className="text-sm text-gray-400">for {plan.period}</p>
+                {plan.description && (
+                  <p className="text-xs text-gray-300 mt-2 italic">{plan.description}</p>
+                )}
               </div>
 
               <ul className="space-y-3 mb-8">
@@ -228,13 +236,14 @@ export default function Premium() {
               </ul>
 
               <button
+                onClick={() => handleCheckout(plan.id)}
                 className={`w-full py-3 rounded-lg font-bold transition ${
                   plan.recommended
                     ? "bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-slate-950"
                     : "border-2 border-gold-500/40 hover:border-gold-500/70 text-gold-300 hover:text-gold-200 bg-transparent"
                 }`}
               >
-                Choose Plan
+                Subscribe Now
               </button>
 
               {plan.id === "lifetime" && (
