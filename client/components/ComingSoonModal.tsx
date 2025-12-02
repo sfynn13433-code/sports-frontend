@@ -29,8 +29,15 @@ export function ComingSoonModal({
           <AlertDialogTitle className="text-2xl text-white">
             Predictions Coming Soon
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-gray-300 mt-4">
-            Predictions for <span className="font-semibold text-gold-300">{sportName}</span> are coming soon. Notify me when available.
+          <AlertDialogDescription className="text-gray-300 mt-4 space-y-4">
+            <p>
+              Predictions for <span className="font-semibold text-gold-300">{sportName}</span> are coming soon. Notify me when available.
+            </p>
+            <div className="p-4 rounded-lg bg-gold-950/30 border border-gold-500/20">
+              <p className="text-sm text-gold-200">
+                <span className="font-semibold">📋 What to expect:</span> Once live, predictions will be presented in a friendly, confident tone, with clear explanations of our analysis without guaranteeing results. You'll receive insights based on real-time data and AI-powered pattern recognition.
+              </p>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex justify-end gap-3 mt-6">
