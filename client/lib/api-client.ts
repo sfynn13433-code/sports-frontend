@@ -36,6 +36,61 @@ export interface PredictionRequest {
 }
 
 export class ApiClient {
+  static async getPredictionsBySport(sport: string): Promise<SportPredictionsResponse> {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+      const response = await fetch(
+        `${SPORT_PREDICTIONS_API}/api/predictions-by-sport?sport=${encodeURIComponent(sport)}`,
+        {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'omit',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          signal: controller.signal,
+        }
+      );
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data: SportPredictionsResponse = await response.json();
+
+      return {
+        data: data.data || [],
+        expertConclusion: data.expertConclusion || 'Predictions will be available shortly.',
+        sport: data.sport || sport,
+        timestamp: data.timestamp,
+      };
+    } catch (error) {
+      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        const corsError = new Error(
+          `CORS Error: Unable to reach ${SPORT_PREDICTIONS_API}. The backend may not be accessible or CORS is not properly configured. Please ensure the backend server is running and has CORS enabled.`
+        );
+        console.error(corsError.message);
+        throw corsError;
+      }
+
+      if (error instanceof Error && error.name === 'AbortError') {
+        const timeoutError = new Error(
+          `Timeout: The backend server took too long to respond. Please check if the server is running.`
+        );
+        console.error(timeoutError.message);
+        throw timeoutError;
+      }
+
+      console.error('Failed to fetch sport predictions:', error);
+      throw error;
+    }
+  }
+
   static async getPredictions(): Promise<Prediction[]> {
     try {
       const controller = new AbortController();
