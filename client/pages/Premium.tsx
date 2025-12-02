@@ -2,8 +2,20 @@ import { Link } from "react-router-dom";
 import { Check, Home, AlertCircle } from "lucide-react";
 import type { ReactNode } from "react";
 
+interface PlanType {
+  id: string;
+  name: string;
+  price: string;
+  period: string;
+  description?: string;
+  color: string;
+  badge: string | null;
+  features: string[];
+  recommended: boolean;
+}
+
 export default function Premium() {
-  const plans = [
+  const plans: PlanType[] = [
     {
       id: "5day",
       name: "5 Days + 1 Extra",
