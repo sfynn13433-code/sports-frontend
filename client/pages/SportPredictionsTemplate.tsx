@@ -309,8 +309,15 @@ export function SportPredictionsTemplate({
         )}
 
         {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-gold-700/20 text-center text-sm text-gray-500">
-          <p>Predictions refresh automatically every 30 seconds</p>
+        <div className="mt-16 pt-8 border-t border-gold-700/20">
+          <div className="text-center text-sm text-gray-500 mb-6">
+            <p>Predictions refresh automatically every 30 seconds</p>
+          </div>
+          <div className="text-center text-xs text-gray-600">
+            <p className="italic">
+              Predictions are suggestions only. Outcomes are not guaranteed. Play responsibly.
+            </p>
+          </div>
         </div>
       </div>
     </div>
