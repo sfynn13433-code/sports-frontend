@@ -1,9 +1,29 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://predictions-backend-1.onrender.com';
+const SPORT_PREDICTIONS_API = 'https://predictions-backend-3e9a.onrender.com';
 
 export interface Prediction {
   id: number;
   title: string;
   confidence: number;
+}
+
+export interface SportPrediction {
+  id?: string | number;
+  matchup: string;
+  homeTeam?: string;
+  awayTeam?: string;
+  prediction: string;
+  confidence: number;
+  winProbability?: number;
+  textCommentary?: string;
+  [key: string]: any;
+}
+
+export interface SportPredictionsResponse {
+  data: SportPrediction[];
+  expertConclusion: string;
+  sport?: string;
+  timestamp?: string;
 }
 
 export interface PredictionResponse {
