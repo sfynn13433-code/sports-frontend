@@ -19,6 +19,8 @@ export default function LivePredictions() {
       setPredictions(response.data || []);
       setExpertConclusion(response.expertConclusion || "");
       setLastUpdated(new Date());
+      // Clear any previous errors on successful load
+      setError(null);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : "Failed to load predictions";
       setError(errorMsg);
