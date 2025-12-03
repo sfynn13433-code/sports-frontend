@@ -97,6 +97,26 @@ export default function LivePredictions() {
           </div>
         </div>
 
+        {/* AI Commentary & Expert Conclusion */}
+        {!isLoading && predictions.length > 0 && expertConclusion && (
+          <div className="mb-8 p-6 rounded-lg border border-gold-500/30 bg-gradient-to-br from-gold-950/40 to-slate-950 animate-in fade-in duration-500 shadow-lg shadow-gold-500/10">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="text-2xl">✨</div>
+              <h3 className="text-lg font-semibold text-gold-300">
+                AI Commentary & Expert Insights
+              </h3>
+            </div>
+            <p className="text-gray-300 leading-relaxed">
+              {expertConclusion}
+            </p>
+            <div className="mt-4 pt-4 border-t border-gold-500/20">
+              <p className="text-sm text-gray-400 italic">
+                🤖 <span className="font-medium text-gold-300">Live Data:</span> These predictions are powered by our AI analysis of current team form, historical matchups, and real-time data.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Loading State */}
         {isLoading && predictions.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16">
