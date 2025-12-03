@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Home, Loader, AlertCircle, RefreshCw, TrendingUp } from "lucide-react";
-import { ApiClient, Prediction } from "../lib/api-client";
+import { ApiClient, SportPrediction } from "../lib/api-client";
 
 export default function LivePredictions() {
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [predictions, setPredictions] = useState<SportPrediction[]>([]);
+  const [expertConclusion, setExpertConclusion] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -13,13 +14,16 @@ export default function LivePredictions() {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await ApiClient.getPredictions();
-      setPredictions(data);
+      // Fetch football predictions as default for live predictions page
+      const response = await ApiClient.getPredictionsBySport("football");
+      setPredictions(response.data || []);
+      setExpertConclusion(response.expertConclusion || "");
       setLastUpdated(new Date());
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : "Failed to load predictions";
       setError(errorMsg);
       setPredictions([]);
+      setExpertConclusion("");
     } finally {
       setIsLoading(false);
     }
@@ -27,7 +31,7 @@ export default function LivePredictions() {
 
   useEffect(() => {
     fetchPredictions();
-    
+
     // Auto-refresh every 30 seconds
     const interval = setInterval(fetchPredictions, 30000);
     return () => clearInterval(interval);
