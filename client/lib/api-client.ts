@@ -43,60 +43,71 @@ export class ApiClient {
       const sportParam = sport.toLowerCase().replace(/\s+/g, '');
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 15000); // 15-second timeout
 
-      const response = await fetch(
-        `${SPORT_PREDICTIONS_API}/api/predictions-by-sport?sport=${encodeURIComponent(sportParam)}`,
-        {
-          method: 'GET',
-          mode: 'cors',
-          credentials: 'omit',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${SPORTRADER_API_KEY}`,
-          },
-          signal: controller.signal,
+      try {
+        const response = await fetch(
+          `${SPORT_PREDICTIONS_API}/api/predictions-by-sport?sport=${encodeURIComponent(sportParam)}`,
+          {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${SPORTRADER_API_KEY}`,
+            },
+            signal: controller.signal,
+          }
+        );
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          // Handle 5xx errors with fallback mock data
+          if (response.status >= 500 && response.status < 600) {
+            console.warn(
+              `Backend returned ${response.status} error for sport: ${sport}. Using mock data.`
+            );
+            return ApiClient.getMockPredictions(sport);
+          }
+          throw new Error(`API Error: ${response.status} ${response.statusText}`);
         }
-      );
 
-      clearTimeout(timeoutId);
+        const data: SportPredictionsResponse = await response.json();
 
-      if (!response.ok) {
-        // Handle 500 errors with fallback mock data
-        if (response.status === 500) {
-          console.warn(`Backend returned 500 error for sport: ${sport}. Using mock data.`);
+        return {
+          data: data.data || [],
+          expertConclusion: data.expertConclusion || 'Predictions will be available shortly.',
+          sport: data.sport || sport,
+          fetchedAt: data.fetchedAt || new Date().toISOString(),
+        };
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+
+        if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+          console.warn(`Backend request timeout for sport: ${sport}. Using mock data.`);
           return ApiClient.getMockPredictions(sport);
         }
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+
+        if (fetchError instanceof TypeError) {
+          console.warn(
+            `Connection error for sport: ${sport}. Using mock data.`,
+            fetchError.message
+          );
+          return ApiClient.getMockPredictions(sport);
+        }
+
+        // Re-throw other errors to be caught by outer catch
+        throw fetchError;
       }
-
-      const data: SportPredictionsResponse = await response.json();
-
-      return {
-        data: data.data || [],
-        expertConclusion: data.expertConclusion || 'Predictions will be available shortly.',
-        sport: data.sport || sport,
-        fetchedAt: data.fetchedAt || new Date().toISOString(),
-      };
     } catch (error) {
-      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-        const corsError = new Error(
-          `Connection Error: Unable to reach the backend. Please check your internet connection.`
-        );
-        console.error(corsError.message, error);
-        // Return fallback data instead of throwing
-        return ApiClient.getMockPredictions(sport);
-      }
-
-      if (error instanceof Error && error.name === 'AbortError') {
-        console.warn(`Backend request timeout for sport: ${sport}. Using mock data.`);
-        return ApiClient.getMockPredictions(sport);
-      }
-
+      // Fallback for any unexpected errors
       console.error('Failed to fetch sport predictions:', error);
-      // Return fallback data on any error
-      return ApiClient.getMockPredictions(sport);
+      const sport_param = sport.toLowerCase().replace(/\s+/g, '');
+      return ApiClient.getMockPredictions(sport_param);
     }
   }
 
