@@ -10,6 +10,7 @@ export interface TeamsResponse {
 }
 
 export class SportsDBAPI {
+  // Use environment variable if provided, otherwise default to TheSportsDB public API
   private static readonly BASE_URL =
     import.meta.env.VITE_SPORTSDB_URL || 'https://www.thesportsdb.com/api/v1/json/3';
 
@@ -22,7 +23,7 @@ export class SportsDBAPI {
           mode: 'cors',
           credentials: 'omit',
           headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
           },
         }
       );
@@ -31,12 +32,14 @@ export class SportsDBAPI {
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
 
-      const data = await response.json();
+      const data: TeamsResponse = await response.json();
 
+      // TheSportsDB returns teams array or null
       if (!data.teams || !Array.isArray(data.teams)) {
         return [];
       }
 
+      // Sort teams alphabetically and limit to top 50 for performance
       return data.teams
         .sort((a: Team, b: Team) => a.strTeam.localeCompare(b.strTeam))
         .slice(0, 50);
