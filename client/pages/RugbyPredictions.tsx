@@ -19,20 +19,33 @@ export function SportPredictionsTemplate({ sportName, sportIcon }: SportPredicti
   if (isLoading) return <p>Loading {sportName} predictions...</p>;
   if (error) return <p>Failed to load {sportName} predictions.</p>;
 
+  const fixtures = data?.data?.response || [];
+
   return (
     <div>
       <h2>
         {sportIcon} {sportName} Predictions
       </h2>
-      {data.matches.map((match: any) => (
-        <div key={match.id} className="prediction-card">
+      {fixtures.map((match: any) => (
+        <div key={match.fixture.id} className="prediction-card">
           <p>
-            {match.teamA} vs {match.teamB}
+            {match.teams.home.name} vs {match.teams.away.name}
           </p>
-          <p>Confidence: {Math.round(match.winProbability * 100)}%</p>
-          <p>{match.textCommentary}</p>
+          <p>
+            Status: {match.fixture.status.long} ({match.fixture.status.elapsed}’)
+          </p>
+          <p>
+            Score: {match.goals.home} - {match.goals.away}
+          </p>
+          <p>League: {match.league.name}</p>
         </div>
       ))}
+
+      {data.expertConclusion && (
+        <div className="expert-conclusion">
+          <strong>Expert Conclusion:</strong> {data.expertConclusion}
+        </div>
+      )}
     </div>
   );
 }
