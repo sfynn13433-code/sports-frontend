@@ -10,7 +10,8 @@ export interface TeamsResponse {
 }
 
 export class SportsDBAPI {
-  private static readonly BASE_URL = 'https://www.thesportsdb.com/api/v1/json/3';
+  private static readonly BASE_URL =
+    import.meta.env.VITE_SPORTSDB_URL || 'https://www.thesportsdb.com/api/v1/json/3';
 
   static async getTeams(league: string = 'English Premier League'): Promise<Team[]> {
     try {
@@ -31,16 +32,14 @@ export class SportsDBAPI {
       }
 
       const data = await response.json();
-      
-      // TheSportsDB returns teams array or null
+
       if (!data.teams || !Array.isArray(data.teams)) {
         return [];
       }
 
-      // Sort teams alphabetically and limit to top teams for better UX
       return data.teams
         .sort((a: Team, b: Team) => a.strTeam.localeCompare(b.strTeam))
-        .slice(0, 50); // Limit to 50 teams for dropdown performance
+        .slice(0, 50);
     } catch (error) {
       console.error('Failed to fetch teams from TheSportsDB:', error);
       throw error;
