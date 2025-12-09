@@ -22,7 +22,7 @@ import IceHockeyPredictions from "./pages/IceHockeyPredictions";
 import SnookerPredictions from "./pages/SnookerPredictions";
 
 // ✅ Corrected import path for Fixtures
-import Fixtures from "./Fixtures";
+import Fixtures from "./src/pages/Fixtures";
 
 const queryClient = new QueryClient();
 
