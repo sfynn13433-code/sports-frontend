@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
 interface BasketballPredictionsProps {
-  // allow overriding label/icon if you ever need, but defaults are set
   sportName?: string;
   sportIcon?: string;
 }
 
-export function BasketballPredictions({
+function BasketballPredictions({
   sportName = "Basketball",
   sportIcon = "🏀",
 }: BasketballPredictionsProps) {
@@ -18,16 +17,13 @@ export function BasketballPredictions({
       const res = await fetch(
         `https://predictions-backend-3e9a.onrender.com/api/predictions-by-sport?sport=${apiSportParam}`
       );
-
       if (!res.ok) {
         throw new Error(`Backend error: ${res.status}`);
       }
-
       return res.json();
     },
   });
 
-  // ✅ Handle loading and error states
   if (isLoading) {
     return <p>Loading {sportName} predictions...</p>;
   }
@@ -36,7 +32,6 @@ export function BasketballPredictions({
     return <p>Failed to load {sportName} predictions.</p>;
   }
 
-  // ✅ Safely extract fixtures
   const fixtures = data?.data?.response || [];
 
   return (
@@ -79,3 +74,5 @@ export function BasketballPredictions({
     </div>
   );
 }
+
+export default BasketballPredictions;
