@@ -18,9 +18,11 @@ function RugbyPredictions() {
     },
   });
 
+  // ✅ Handle loading and error states
   if (isLoading) return <p>Loading {sportName} predictions...</p>;
-  if (error) return <p>Failed to load {sportName} predictions...</p>;
+  if (error) return <p>Failed to load {sportName} predictions.</p>;
 
+  // ✅ Safely extract fixtures
   const fixtures = data?.data?.response || [];
 
   return (
@@ -33,7 +35,10 @@ function RugbyPredictions() {
 
       {fixtures.map((match: any) => (
         <div
-          key={match.fixture?.id}
+          key={
+            match.fixture?.id ??
+            `${match.league?.id}-${match.teams?.home?.name}-${match.teams?.away?.name}`
+          }
           className="prediction-card"
         >
           <p>

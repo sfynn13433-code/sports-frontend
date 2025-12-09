@@ -27,6 +27,7 @@ export function BasketballPredictions({
     },
   });
 
+  // ✅ Handle loading and error states
   if (isLoading) {
     return <p>Loading {sportName} predictions...</p>;
   }
@@ -35,6 +36,7 @@ export function BasketballPredictions({
     return <p>Failed to load {sportName} predictions.</p>;
   }
 
+  // ✅ Safely extract fixtures
   const fixtures = data?.data?.response || [];
 
   return (
@@ -46,7 +48,13 @@ export function BasketballPredictions({
       {fixtures.length === 0 && <p>No {sportName} games found.</p>}
 
       {fixtures.map((match: any) => (
-        <div key={match.fixture?.id ?? `${match.league?.id}-${match.teams?.home?.name}-${match.teams?.away?.name}`} className="prediction-card">
+        <div
+          key={
+            match.fixture?.id ??
+            `${match.league?.id}-${match.teams?.home?.name}-${match.teams?.away?.name}`
+          }
+          className="prediction-card"
+        >
           <p>
             {match.teams?.home?.name} vs {match.teams?.away?.name}
           </p>
