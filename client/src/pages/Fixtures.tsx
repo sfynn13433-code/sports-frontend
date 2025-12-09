@@ -7,6 +7,7 @@ export default function Fixtures() {
 
   useEffect(() => {
     const apiKey = import.meta.env.VITE_X_APISPORTS_KEY;
+    console.log("API Key:", apiKey); // ✅ sanity check
 
     fetch("https://api-football-v1.p.rapidapi.com/v3/fixtures?league=39&season=2023", {
       headers: {
@@ -14,8 +15,12 @@ export default function Fixtures() {
         "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
       }
     })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch fixtures");
+      .then(async res => {
+        if (!res.ok) {
+          // ✅ capture full error response
+          const errorText = await res.text();
+          throw new Error(`Failed to fetch fixtures: ${res.status} ${errorText}`);
+        }
         return res.json();
       })
       .then(json => {
@@ -23,6 +28,7 @@ export default function Fixtures() {
         setLoading(false);
       })
       .catch(err => {
+        console.error("Fetch error:", err);
         setError(err.message);
         setLoading(false);
       });
