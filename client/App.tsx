@@ -21,6 +21,9 @@ import BasketballPredictions from "./pages/BasketballPredictions";
 import IceHockeyPredictions from "./pages/IceHockeyPredictions";
 import SnookerPredictions from "./pages/SnookerPredictions";
 
+// ✅ Corrected import path for Fixtures
+import Fixtures from "./Fixtures";
+
 const queryClient = new QueryClient();
 
 export default function App() {
@@ -39,6 +42,7 @@ export default function App() {
             <Route path="/" element={<Index />} />
             <Route path="/sports" element={<SportsMenu />} />
             <Route path="/predictions" element={<LivePredictions />} />
+            <Route path="/fixtures" element={<Fixtures />} /> {/* ✅ New route */}
             <Route path="/sports/football" element={<FootballPredictions />} />
             <Route path="/sports/rugby" element={<RugbyPredictions />} />
             <Route path="/sports/tennis" element={<TennisPredictions />} />
