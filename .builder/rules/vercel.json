@@ -5,15 +5,22 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/spa/client",
-        "buildCommand": "pnpm run build:client"
+        "distDir": "dist"
       }
+    },
+    {
+      "src": "server/**/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/server/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/client/index.html"
+      "dest": "/index.html"
     }
   ]
 }
