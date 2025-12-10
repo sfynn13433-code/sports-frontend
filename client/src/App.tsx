@@ -5,24 +5,24 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { NotificationCenter } from "./components/NotificationCenter";
-import Index from "./pages/Index";
-import Predictions from "./pages/Predictions";
-import LivePredictions from "./pages/LivePredictions";
-import TeamPrediction from "./pages/TeamPrediction";
-import Leagues from "./pages/Leagues";
-import Premium from "./pages/Premium";
-import NotFound from "./pages/NotFound";
-import { SportsMenu } from "./components/SportsMenu";
-import FootballPredictions from "./pages/FootballPredictions";
-import RugbyPredictions from "./pages/RugbyPredictions";
-import TennisPredictions from "./pages/TennisPredictions";
-import BasketballPredictions from "./pages/BasketballPredictions";
-import IceHockeyPredictions from "./pages/IceHockeyPredictions";
-import SnookerPredictions from "./pages/SnookerPredictions";
+import { NotificationCenter } from "../components/NotificationCenter";
+import Index from "../pages/Index";
+import Predictions from "../pages/Predictions";
+import LivePredictions from "../pages/LivePredictions";
+import TeamPrediction from "../pages/TeamPrediction";
+import Leagues from "../pages/Leagues";
+import Premium from "../pages/Premium";
+import NotFound from "../pages/NotFound";
+import { SportsMenu } from "../components/SportsMenu";
+import FootballPredictions from "../pages/FootballPredictions";
+import RugbyPredictions from "../pages/RugbyPredictions";
+import TennisPredictions from "../pages/TennisPredictions";
+import BasketballPredictions from "../pages/BasketballPredictions";
+import IceHockeyPredictions from "../pages/IceHockeyPredictions";
+import SnookerPredictions from "../pages/SnookerPredictions";
 
 // ✅ Corrected import path for Fixtures
-import Fixtures from "./src/pages/Fixtures";
+import Fixtures from "./pages/Fixtures";
 
 const queryClient = new QueryClient();
 
