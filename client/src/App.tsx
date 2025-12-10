@@ -1,4 +1,4 @@
-import "./global.css";
+import "@/global.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
