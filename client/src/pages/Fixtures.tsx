@@ -71,7 +71,7 @@ export default function Fixtures() {
       const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
       // Find next target time today
-      let nextMinutes = null;
+      let nextMinutes: number | null = null;
       for (const h of targetHours) {
         const t = h * 60;
         if (t > currentMinutes) {
